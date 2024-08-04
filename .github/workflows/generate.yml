@@ -1,0 +1,35 @@
+name: Generate Swagger Client
+
+on:
+  push:
+    paths:
+      - .github/**
+  workflow_dispatch:
+  schedule:
+    - cron: '0 19 * * 0'
+
+permissions:
+  contents: write
+
+jobs:
+  generate-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          check-latest: true
+      - name: Go Mod Tidy
+        run: go mod tidy
+      - name: Generate Client
+        run: |
+          go get github.com/go-swagger/go-swagger/cmd/swagger
+          go run github.com/go-swagger/go-swagger/cmd/swagger generate client --spec https://raw.githubusercontent.com/superseriousbusiness/gotosocial/main/docs/api/swagger.yaml
+          patch -u -p1 -i patches/filter-context.diff
+      - name: Check and Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "update generated client"
