@@ -27,6 +27,7 @@ jobs:
         run: go mod tidy
       - name: Generate Client
         run: |
+          rm -rf client models
           go get github.com/go-swagger/go-swagger/cmd/swagger
           go run github.com/go-swagger/go-swagger/cmd/swagger generate client --spec https://raw.githubusercontent.com/superseriousbusiness/gotosocial/main/docs/api/swagger.yaml
           patch -u -p1 -i patches/filter-context.diff
