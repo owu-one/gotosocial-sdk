@@ -68,12 +68,6 @@ type AccountUpdateParams struct {
 	*/
 	Avatar runtime.NamedReadCloser
 
-	/* AvatarDescription.
-
-	   Description of avatar image, for alt-text.
-	*/
-	AvatarDescription string
-
 	/* Bot.
 
 	   Account is flagged as a bot.
@@ -181,12 +175,6 @@ type AccountUpdateParams struct {
 	   Header of the user.
 	*/
 	Header runtime.NamedReadCloser
-
-	/* HeaderDescription.
-
-	   Description of header image, for alt-text.
-	*/
-	HeaderDescription string
 
 	/* HideCollections.
 
@@ -298,17 +286,6 @@ func (o *AccountUpdateParams) WithAvatar(avatar runtime.NamedReadCloser) *Accoun
 // SetAvatar adds the avatar to the account update params
 func (o *AccountUpdateParams) SetAvatar(avatar runtime.NamedReadCloser) {
 	o.Avatar = avatar
-}
-
-// WithAvatarDescription adds the avatarDescription to the account update params
-func (o *AccountUpdateParams) WithAvatarDescription(avatarDescription string) *AccountUpdateParams {
-	o.SetAvatarDescription(avatarDescription)
-	return o
-}
-
-// SetAvatarDescription adds the avatarDescription to the account update params
-func (o *AccountUpdateParams) SetAvatarDescription(avatarDescription string) {
-	o.AvatarDescription = avatarDescription
 }
 
 // WithBot adds the bot to the account update params
@@ -509,17 +486,6 @@ func (o *AccountUpdateParams) SetHeader(header runtime.NamedReadCloser) {
 	o.Header = header
 }
 
-// WithHeaderDescription adds the headerDescription to the account update params
-func (o *AccountUpdateParams) WithHeaderDescription(headerDescription string) *AccountUpdateParams {
-	o.SetHeaderDescription(headerDescription)
-	return o
-}
-
-// SetHeaderDescription adds the headerDescription to the account update params
-func (o *AccountUpdateParams) SetHeaderDescription(headerDescription string) {
-	o.HeaderDescription = headerDescription
-}
-
 // WithHideCollections adds the hideCollections to the account update params
 func (o *AccountUpdateParams) WithHideCollections(hideCollections *bool) *AccountUpdateParams {
 	o.SetHideCollections(hideCollections)
@@ -624,13 +590,6 @@ func (o *AccountUpdateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 				return err
 			}
 		}
-	}
-
-	// form param avatar_description
-	frAvatarDescription := o.AvatarDescription
-	fAvatarDescription := frAvatarDescription
-	if err := r.SetFormParam("avatar_description", fAvatarDescription); err != nil {
-		return err
 	}
 
 	if o.Bot != nil {
@@ -888,13 +847,6 @@ func (o *AccountUpdateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 				return err
 			}
 		}
-	}
-
-	// form param header_description
-	frHeaderDescription := o.HeaderDescription
-	fHeaderDescription := frHeaderDescription
-	if err := r.SetFormParam("header_description", fHeaderDescription); err != nil {
-		return err
 	}
 
 	if o.HideCollections != nil {

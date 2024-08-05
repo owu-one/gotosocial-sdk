@@ -62,6 +62,12 @@ StatusCreateParams contains all the parameters to send to the API endpoint
 */
 type StatusCreateParams struct {
 
+	/* Boostable.
+
+	   This status can be boosted/reblogged.
+	*/
+	Boostable *bool
+
 	/* ContentType.
 
 	   Content type to use when parsing this status.
@@ -85,6 +91,12 @@ type StatusCreateParams struct {
 	   ISO 639 language code for this status.
 	*/
 	Language *string
+
+	/* Likeable.
+
+	   This status can be liked/faved.
+	*/
+	Likeable *bool
 
 	/* MediaIds.
 
@@ -125,6 +137,12 @@ type StatusCreateParams struct {
 	If provided, media_ids cannot be used, and poll[expires_in] must be provided.
 	*/
 	PollOptions []string
+
+	/* Replyable.
+
+	   This status can be replied to.
+	*/
+	Replyable *bool
 
 	/* ScheduledAt.
 
@@ -230,6 +248,17 @@ func (o *StatusCreateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithBoostable adds the boostable to the status create params
+func (o *StatusCreateParams) WithBoostable(boostable *bool) *StatusCreateParams {
+	o.SetBoostable(boostable)
+	return o
+}
+
+// SetBoostable adds the boostable to the status create params
+func (o *StatusCreateParams) SetBoostable(boostable *bool) {
+	o.Boostable = boostable
+}
+
 // WithContentType adds the contentType to the status create params
 func (o *StatusCreateParams) WithContentType(contentType *string) *StatusCreateParams {
 	o.SetContentType(contentType)
@@ -272,6 +301,17 @@ func (o *StatusCreateParams) WithLanguage(language *string) *StatusCreateParams 
 // SetLanguage adds the language to the status create params
 func (o *StatusCreateParams) SetLanguage(language *string) {
 	o.Language = language
+}
+
+// WithLikeable adds the likeable to the status create params
+func (o *StatusCreateParams) WithLikeable(likeable *bool) *StatusCreateParams {
+	o.SetLikeable(likeable)
+	return o
+}
+
+// SetLikeable adds the likeable to the status create params
+func (o *StatusCreateParams) SetLikeable(likeable *bool) {
+	o.Likeable = likeable
 }
 
 // WithMediaIDs adds the mediaIds to the status create params
@@ -327,6 +367,17 @@ func (o *StatusCreateParams) WithPollOptions(pollOptions []string) *StatusCreate
 // SetPollOptions adds the pollOptions to the status create params
 func (o *StatusCreateParams) SetPollOptions(pollOptions []string) {
 	o.PollOptions = pollOptions
+}
+
+// WithReplyable adds the replyable to the status create params
+func (o *StatusCreateParams) WithReplyable(replyable *bool) *StatusCreateParams {
+	o.SetReplyable(replyable)
+	return o
+}
+
+// SetReplyable adds the replyable to the status create params
+func (o *StatusCreateParams) SetReplyable(replyable *bool) {
+	o.Replyable = replyable
 }
 
 // WithScheduledAt adds the scheduledAt to the status create params
@@ -392,6 +443,21 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 	}
 	var res []error
 
+	if o.Boostable != nil {
+
+		// form param boostable
+		var frBoostable bool
+		if o.Boostable != nil {
+			frBoostable = *o.Boostable
+		}
+		fBoostable := swag.FormatBool(frBoostable)
+		if fBoostable != "" {
+			if err := r.SetFormParam("boostable", fBoostable); err != nil {
+				return err
+			}
+		}
+	}
+
 	if o.ContentType != nil {
 
 		// form param content_type
@@ -447,6 +513,21 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		fLanguage := frLanguage
 		if fLanguage != "" {
 			if err := r.SetFormParam("language", fLanguage); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.Likeable != nil {
+
+		// form param likeable
+		var frLikeable bool
+		if o.Likeable != nil {
+			frLikeable = *o.Likeable
+		}
+		fLikeable := swag.FormatBool(frLikeable)
+		if fLikeable != "" {
+			if err := r.SetFormParam("likeable", fLikeable); err != nil {
 				return err
 			}
 		}
@@ -516,6 +597,21 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		// form array param poll[options][]
 		if err := r.SetFormParam("poll[options][]", joinedPollOptions...); err != nil {
 			return err
+		}
+	}
+
+	if o.Replyable != nil {
+
+		// form param replyable
+		var frReplyable bool
+		if o.Replyable != nil {
+			frReplyable = *o.Replyable
+		}
+		fReplyable := swag.FormatBool(frReplyable)
+		if fReplyable != "" {
+			if err := r.SetFormParam("replyable", fReplyable); err != nil {
+				return err
+			}
 		}
 	}
 

@@ -93,14 +93,6 @@ type InstanceV1 struct {
 	// Example: picture of a cute lil' friendly sloth
 	ThumbnailDescription string `json:"thumbnail_description,omitempty"`
 
-	// URL of the static instance avatar/banner image.
-	// Example: https://example.org/files/instance/static/thumbnail.webp
-	ThumbnailStatic string `json:"thumbnail_static,omitempty"`
-
-	// MIME type of the static instance thumbnail.
-	// Example: image/webp
-	ThumbnailStaticType string `json:"thumbnail_static_type,omitempty"`
-
 	// MIME type of the instance thumbnail.
 	// Example: image/png
 	ThumbnailType string `json:"thumbnail_type,omitempty"`

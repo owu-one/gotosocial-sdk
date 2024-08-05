@@ -117,9 +117,6 @@ type StatusReblogged struct {
 	// card
 	Card *Card `json:"card,omitempty"`
 
-	// interaction policy
-	InteractionPolicy *InteractionPolicy `json:"interaction_policy,omitempty"`
-
 	// poll
 	Poll *Poll `json:"poll,omitempty"`
 
@@ -160,10 +157,6 @@ func (m *StatusReblogged) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCard(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateInteractionPolicy(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -368,25 +361,6 @@ func (m *StatusReblogged) validateCard(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *StatusReblogged) validateInteractionPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.InteractionPolicy) { // not required
-		return nil
-	}
-
-	if m.InteractionPolicy != nil {
-		if err := m.InteractionPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("interaction_policy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("interaction_policy")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (m *StatusReblogged) validatePoll(formats strfmt.Registry) error {
 	if swag.IsZero(m.Poll) { // not required
 		return nil
@@ -458,10 +432,6 @@ func (m *StatusReblogged) ContextValidate(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.contextValidateCard(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInteractionPolicy(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -659,27 +629,6 @@ func (m *StatusReblogged) contextValidateCard(ctx context.Context, formats strfm
 				return ve.ValidateName("card")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("card")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *StatusReblogged) contextValidateInteractionPolicy(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InteractionPolicy != nil {
-
-		if swag.IsZero(m.InteractionPolicy) { // not required
-			return nil
-		}
-
-		if err := m.InteractionPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("interaction_policy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("interaction_policy")
 			}
 			return err
 		}
