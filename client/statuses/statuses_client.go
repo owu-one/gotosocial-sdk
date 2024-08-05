@@ -89,6 +89,8 @@ type ClientService interface {
 
 	StatusBoostedBy(params *StatusBoostedByParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusBoostedByOK, error)
 
+	StatusContext(params *StatusContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusContextOK, error)
+
 	StatusCreate(params *StatusCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusCreateOK, error)
 
 	StatusDelete(params *StatusDeleteParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusDeleteOK, error)
@@ -118,8 +120,6 @@ type ClientService interface {
 	StatusUnpin(params *StatusUnpinParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusUnpinOK, error)
 
 	StatusUnreblog(params *StatusUnreblogParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusUnreblogOK, error)
-
-	ThreadContext(params *ThreadContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ThreadContextOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -199,6 +199,47 @@ func (a *Client) StatusBoostedBy(params *StatusBoostedByParams, authInfo runtime
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for statusBoostedBy: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+StatusContext returns ancestors and descendants of the given status
+
+The returned statuses will be ordered in a thread structure, so they are suitable to be displayed in the order in which they were returned.
+*/
+func (a *Client) StatusContext(params *StatusContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusContextOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStatusContextParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "statusContext",
+		Method:             "GET",
+		PathPattern:        "/api/v1/statuses/{id}/context",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &StatusContextReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StatusContextOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for statusContext: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -811,47 +852,6 @@ func (a *Client) StatusUnreblog(params *StatusUnreblogParams, authInfo runtime.C
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for statusUnreblog: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-ThreadContext returns ancestors and descendants of the given status
-
-The returned statuses will be ordered in a thread structure, so they are suitable to be displayed in the order in which they were returned.
-*/
-func (a *Client) ThreadContext(params *ThreadContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ThreadContextOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewThreadContextParams()
-	}
-	op := &runtime.ClientOperation{
-		ID:                 "threadContext",
-		Method:             "GET",
-		PathPattern:        "/api/v1/statuses/{id}/context",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &ThreadContextReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*ThreadContextOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for threadContext: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
