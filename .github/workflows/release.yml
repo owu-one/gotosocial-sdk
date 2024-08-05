@@ -38,15 +38,32 @@ jobs:
             export TAG=${{ github.event.inputs.tag }}
           fi
           echo "TAG=$TAG" >> $GITHUB_ENV
+      - name: Clean Temporary Files
+        run: |
           rm -rf gotosocial
+          rm -rf client models
       - name: Generate Client
         run: |
+          export CURRENT_LATEST=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          if [ "$CURRENT_LATEST" == "$TAG" ]; then
+            echo "No need to generate client for Tag: $TAG"
+            exit 0
+          fi
           echo "Generating Client for Tag: $TAG"
           go get github.com/go-swagger/go-swagger/cmd/swagger
           go run github.com/go-swagger/go-swagger/cmd/swagger generate client --spec https://raw.githubusercontent.com/superseriousbusiness/gotosocial/${TAG}/docs/api/swagger.yaml
           patch -u -p1 -i patches/filter-context.diff
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "bump version to ${{ env.TAG }}"
+          create_branch: true
+          branch: "release/${{ env.TAG }}"
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           body: "Bump version to ${{ env.TAG }}"
           tag_name: ${{ env.TAG }}
+          target_commitish: "release/${{ env.TAG }}"
+      - name: Remove Temporary Branch
+        run: git push origin --delete "release/${{ env.TAG }}"
