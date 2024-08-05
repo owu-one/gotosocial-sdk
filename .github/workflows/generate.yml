@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - .github/**
+      - patches/**
   workflow_dispatch:
   schedule:
     - cron: '0 19 * * *'
