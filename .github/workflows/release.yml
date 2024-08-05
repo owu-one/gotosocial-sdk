@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag'
+        required: false
+  schedule:
+    - cron: '0 19 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Checkout GoToSocial
+        uses: actions/checkout@v4
+        with:
+          repository: superseriousbusiness/gotosocial
+          path: gotosocial
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          check-latest: true
+      - name: Go Mod Tidy
+        run: go mod tidy
+      - name: Get Tag
+        run: |
+          if [ -z "${{ github.event.inputs.tag }}" ]; then
+            export TAG=$(git -C gotosocial -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' | tail -n1 | cut --delimiter='/' --fields=3)
+          else
+            export TAG=${{ github.event.inputs.tag }}
+          fi
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          rm -rf gotosocial
+      - name: Generate Client
+        run: |
+          echo "Generating Client for Tag: $TAG"
+          go get github.com/go-swagger/go-swagger/cmd/swagger
+          go run github.com/go-swagger/go-swagger/cmd/swagger generate client --spec https://raw.githubusercontent.com/superseriousbusiness/gotosocial/${TAG}/docs/api/swagger.yaml
+          patch -u -p1 -i patches/filter-context.diff
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: "Bump version to ${{ env.TAG }}"
+          tag_name: ${{ env.TAG }}
