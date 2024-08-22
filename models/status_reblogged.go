@@ -59,6 +59,9 @@ type StatusReblogged struct {
 	// Example: en
 	Language string `json:"language,omitempty"`
 
+	// Set to "true" if status is not federated, ie., a "local only" status; omitted from response otherwise.
+	LocalOnly bool `json:"local_only,omitempty"`
+
 	// Media that is attached to this status.
 	MediaAttachments []*Attachment `json:"media_attachments"`
 

@@ -70,8 +70,8 @@ type StatusCreateParams struct {
 
 	/* Federated.
 
-	   This status will be federated beyond the local timeline(s).
-	*/
+	 ***DEPRECATED***. Included for back compat only. Only used if set and local_only is not yet. If set to true, this status will be federated beyond the local timeline(s). If set to false, this status will NOT be federated beyond the local timeline(s).
+	 */
 	Federated *bool
 
 	/* InReplyToID.
@@ -85,6 +85,12 @@ type StatusCreateParams struct {
 	   ISO 639 language code for this status.
 	*/
 	Language *string
+
+	/* LocalOnly.
+
+	   If set to true, this status will be "local only" and will NOT be federated beyond the local timeline(s). If set to false (default), this status will be federated to your followers beyond the local timeline(s).
+	*/
+	LocalOnly *bool
 
 	/* MediaIds.
 
@@ -181,12 +187,15 @@ func (o *StatusCreateParams) WithDefaults() *StatusCreateParams {
 // All values with no default are reset to their zero value.
 func (o *StatusCreateParams) SetDefaults() {
 	var (
+		localOnlyDefault = bool(false)
+
 		pollHideTotalsDefault = bool(true)
 
 		pollMultipleDefault = bool(false)
 	)
 
 	val := StatusCreateParams{
+		LocalOnly:      &localOnlyDefault,
 		PollHideTotals: &pollHideTotalsDefault,
 		PollMultiple:   &pollMultipleDefault,
 	}
@@ -272,6 +281,17 @@ func (o *StatusCreateParams) WithLanguage(language *string) *StatusCreateParams 
 // SetLanguage adds the language to the status create params
 func (o *StatusCreateParams) SetLanguage(language *string) {
 	o.Language = language
+}
+
+// WithLocalOnly adds the localOnly to the status create params
+func (o *StatusCreateParams) WithLocalOnly(localOnly *bool) *StatusCreateParams {
+	o.SetLocalOnly(localOnly)
+	return o
+}
+
+// SetLocalOnly adds the localOnly to the status create params
+func (o *StatusCreateParams) SetLocalOnly(localOnly *bool) {
+	o.LocalOnly = localOnly
 }
 
 // WithMediaIDs adds the mediaIds to the status create params
@@ -447,6 +467,21 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		fLanguage := frLanguage
 		if fLanguage != "" {
 			if err := r.SetFormParam("language", fLanguage); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.LocalOnly != nil {
+
+		// form param local_only
+		var frLocalOnly bool
+		if o.LocalOnly != nil {
+			frLocalOnly = *o.LocalOnly
+		}
+		fLocalOnly := swag.FormatBool(frLocalOnly)
+		if fLocalOnly != "" {
+			if err := r.SetFormParam("local_only", fLocalOnly); err != nil {
 				return err
 			}
 		}
