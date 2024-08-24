@@ -26,6 +26,7 @@ import (
 	"github.com/owu-one/gotosocial-sdk/client/import_export"
 	"github.com/owu-one/gotosocial-sdk/client/instance"
 	"github.com/owu-one/gotosocial-sdk/client/interaction_policies"
+	"github.com/owu-one/gotosocial-sdk/client/interaction_requests"
 	"github.com/owu-one/gotosocial-sdk/client/lists"
 	"github.com/owu-one/gotosocial-sdk/client/markers"
 	"github.com/owu-one/gotosocial-sdk/client/media"
@@ -102,6 +103,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *GoToSocial
 	cli.ImportExport = import_export.New(transport, formats)
 	cli.Instance = instance.New(transport, formats)
 	cli.InteractionPolicies = interaction_policies.New(transport, formats)
+	cli.InteractionRequests = interaction_requests.New(transport, formats)
 	cli.Lists = lists.New(transport, formats)
 	cli.Markers = markers.New(transport, formats)
 	cli.Media = media.New(transport, formats)
@@ -194,6 +196,8 @@ type GoToSocialSwaggerDocumentation struct {
 
 	InteractionPolicies interaction_policies.ClientService
 
+	InteractionRequests interaction_requests.ClientService
+
 	Lists lists.ClientService
 
 	Markers markers.ClientService
@@ -248,6 +252,7 @@ func (c *GoToSocialSwaggerDocumentation) SetTransport(transport runtime.ClientTr
 	c.ImportExport.SetTransport(transport)
 	c.Instance.SetTransport(transport)
 	c.InteractionPolicies.SetTransport(transport)
+	c.InteractionRequests.SetTransport(transport)
 	c.Lists.SetTransport(transport)
 	c.Markers.SetTransport(transport)
 	c.Media.SetTransport(transport)
