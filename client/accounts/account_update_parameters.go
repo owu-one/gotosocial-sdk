@@ -236,6 +236,15 @@ type AccountUpdateParams struct {
 	*/
 	Theme *string
 
+	/* WebVisibility.
+
+	     Posts to show on the web view of the account.
+	"public": default, show only Public visibility posts on the web.
+	"unlisted": show Public *and* Unlisted visibility posts on the web.
+	"none": show no posts on the web, not even Public ones.
+	*/
+	WebVisibility *string
+
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -606,6 +615,17 @@ func (o *AccountUpdateParams) WithTheme(theme *string) *AccountUpdateParams {
 // SetTheme adds the theme to the account update params
 func (o *AccountUpdateParams) SetTheme(theme *string) {
 	o.Theme = theme
+}
+
+// WithWebVisibility adds the webVisibility to the account update params
+func (o *AccountUpdateParams) WithWebVisibility(webVisibility *string) *AccountUpdateParams {
+	o.SetWebVisibility(webVisibility)
+	return o
+}
+
+// SetWebVisibility adds the webVisibility to the account update params
+func (o *AccountUpdateParams) SetWebVisibility(webVisibility *string) {
+	o.WebVisibility = webVisibility
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -1004,6 +1024,21 @@ func (o *AccountUpdateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		fTheme := frTheme
 		if fTheme != "" {
 			if err := r.SetFormParam("theme", fTheme); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.WebVisibility != nil {
+
+		// form param web_visibility
+		var frWebVisibility string
+		if o.WebVisibility != nil {
+			frWebVisibility = *o.WebVisibility
+		}
+		fWebVisibility := frWebVisibility
+		if fWebVisibility != "" {
+			if err := r.SetFormParam("web_visibility", fWebVisibility); err != nil {
 				return err
 			}
 		}

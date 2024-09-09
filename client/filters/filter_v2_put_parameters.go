@@ -78,6 +78,14 @@ type FilterV2PutParams struct {
 	*/
 	ExpiresIn *float64
 
+	/* FilterAction.
+
+	     The action to be taken when a status matches this filter.
+
+	Sample: warn
+	*/
+	FilterAction *string
+
 	/* ID.
 
 	   ID of the filter.
@@ -185,6 +193,17 @@ func (o *FilterV2PutParams) SetExpiresIn(expiresIn *float64) {
 	o.ExpiresIn = expiresIn
 }
 
+// WithFilterAction adds the filterAction to the filter v2 put params
+func (o *FilterV2PutParams) WithFilterAction(filterAction *string) *FilterV2PutParams {
+	o.SetFilterAction(filterAction)
+	return o
+}
+
+// SetFilterAction adds the filterAction to the filter v2 put params
+func (o *FilterV2PutParams) SetFilterAction(filterAction *string) {
+	o.FilterAction = filterAction
+}
+
 // WithID adds the id to the filter v2 put params
 func (o *FilterV2PutParams) WithID(id string) *FilterV2PutParams {
 	o.SetID(id)
@@ -269,6 +288,21 @@ func (o *FilterV2PutParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		fExpiresIn := swag.FormatFloat64(frExpiresIn)
 		if fExpiresIn != "" {
 			if err := r.SetFormParam("expires_in", fExpiresIn); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.FilterAction != nil {
+
+		// form param filter_action
+		var frFilterAction string
+		if o.FilterAction != nil {
+			frFilterAction = *o.FilterAction
+		}
+		fFilterAction := frFilterAction
+		if fFilterAction != "" {
+			if err := r.SetFormParam("filter_action", fFilterAction); err != nil {
 				return err
 			}
 		}
