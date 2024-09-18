@@ -78,11 +78,6 @@ func WithContentTypeApplicationxWwwFormUrlencoded(r *runtime.ClientOperation) {
 	r.ConsumesMediaTypes = []string{"application/x-www-form-urlencoded"}
 }
 
-// WithContentTypeApplicationXML sets the Content-Type header to "application/xml".
-func WithContentTypeApplicationXML(r *runtime.ClientOperation) {
-	r.ConsumesMediaTypes = []string{"application/xml"}
-}
-
 // ClientService is the interface for Client methods
 type ClientService interface {
 	StatusBookmark(params *StatusBookmarkParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusBookmarkOK, error)
@@ -203,11 +198,27 @@ func (a *Client) StatusBoostedBy(params *StatusBoostedByParams, authInfo runtime
 }
 
 /*
-	StatusCreate creates a new status
+	StatusCreate creates a new status using the given form field parameters
 
 	The parameters can also be given in the body of the request, as JSON, if the content-type is set to 'application/json'.
 
-The parameters can also be given in the body of the request, as XML, if the content-type is set to 'application/xml'.
+The 'interaction_policy' field can be used to set an interaction policy for this status.
+
+If submitting using form data, use the following pattern to set an interaction policy:
+
+`interaction_policy[INTERACTION_TYPE][CONDITION][INDEX]=Value`
+
+For example: `interaction_policy[can_reply][always][0]=author`
+
+Using `curl` this might look something like:
+
+`curl -F 'interaction_policy[can_reply][always][0]=author' -F 'interaction_policy[can_reply][always][1]=followers' [... other form fields ...]`
+
+The JSON equivalent would be:
+
+`curl -H 'Content-Type: application/json' -d '{"interaction_policy":{"can_reply":{"always":["author","followers"]}} [... other json fields ...]}'`
+
+The server will perform some normalization on the submitted policy so that you can't submit something totally invalid.
 */
 func (a *Client) StatusCreate(params *StatusCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusCreateOK, error) {
 	// TODO: Validate the params before sending
@@ -219,7 +230,7 @@ func (a *Client) StatusCreate(params *StatusCreateParams, authInfo runtime.Clien
 		Method:             "POST",
 		PathPattern:        "/api/v1/statuses",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json", "application/xml", "application/x-www-form-urlencoded"},
+		ConsumesMediaTypes: []string{"application/json", "application/x-www-form-urlencoded"},
 		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &StatusCreateReader{formats: a.formats},

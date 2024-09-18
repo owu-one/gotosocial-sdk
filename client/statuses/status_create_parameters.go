@@ -80,6 +80,42 @@ type StatusCreateParams struct {
 	*/
 	InReplyToID *string
 
+	/* InteractionPolicyCanFavouriteAlways0.
+
+	   Nth entry for interaction_policy.can_favourite.always.
+	*/
+	InteractionPolicyCanFavouriteAlways0 *string
+
+	/* InteractionPolicyCanFavouriteWithApproval0.
+
+	   Nth entry for interaction_policy.can_favourite.with_approval.
+	*/
+	InteractionPolicyCanFavouriteWithApproval0 *string
+
+	/* InteractionPolicyCanReblogAlways0.
+
+	   Nth entry for interaction_policy.can_reblog.always.
+	*/
+	InteractionPolicyCanReblogAlways0 *string
+
+	/* InteractionPolicyCanReblogWithApproval0.
+
+	   Nth entry for interaction_policy.can_reblog.with_approval.
+	*/
+	InteractionPolicyCanReblogWithApproval0 *string
+
+	/* InteractionPolicyCanReplyAlways0.
+
+	   Nth entry for interaction_policy.can_reply.always.
+	*/
+	InteractionPolicyCanReplyAlways0 *string
+
+	/* InteractionPolicyCanReplyWithApproval0.
+
+	   Nth entry for interaction_policy.can_reply.with_approval.
+	*/
+	InteractionPolicyCanReplyWithApproval0 *string
+
 	/* Language.
 
 	   ISO 639 language code for this status.
@@ -272,6 +308,72 @@ func (o *StatusCreateParams) SetInReplyToID(inReplyToID *string) {
 	o.InReplyToID = inReplyToID
 }
 
+// WithInteractionPolicyCanFavouriteAlways0 adds the interactionPolicyCanFavouriteAlways0 to the status create params
+func (o *StatusCreateParams) WithInteractionPolicyCanFavouriteAlways0(interactionPolicyCanFavouriteAlways0 *string) *StatusCreateParams {
+	o.SetInteractionPolicyCanFavouriteAlways0(interactionPolicyCanFavouriteAlways0)
+	return o
+}
+
+// SetInteractionPolicyCanFavouriteAlways0 adds the interactionPolicyCanFavouriteAlways0 to the status create params
+func (o *StatusCreateParams) SetInteractionPolicyCanFavouriteAlways0(interactionPolicyCanFavouriteAlways0 *string) {
+	o.InteractionPolicyCanFavouriteAlways0 = interactionPolicyCanFavouriteAlways0
+}
+
+// WithInteractionPolicyCanFavouriteWithApproval0 adds the interactionPolicyCanFavouriteWithApproval0 to the status create params
+func (o *StatusCreateParams) WithInteractionPolicyCanFavouriteWithApproval0(interactionPolicyCanFavouriteWithApproval0 *string) *StatusCreateParams {
+	o.SetInteractionPolicyCanFavouriteWithApproval0(interactionPolicyCanFavouriteWithApproval0)
+	return o
+}
+
+// SetInteractionPolicyCanFavouriteWithApproval0 adds the interactionPolicyCanFavouriteWithApproval0 to the status create params
+func (o *StatusCreateParams) SetInteractionPolicyCanFavouriteWithApproval0(interactionPolicyCanFavouriteWithApproval0 *string) {
+	o.InteractionPolicyCanFavouriteWithApproval0 = interactionPolicyCanFavouriteWithApproval0
+}
+
+// WithInteractionPolicyCanReblogAlways0 adds the interactionPolicyCanReblogAlways0 to the status create params
+func (o *StatusCreateParams) WithInteractionPolicyCanReblogAlways0(interactionPolicyCanReblogAlways0 *string) *StatusCreateParams {
+	o.SetInteractionPolicyCanReblogAlways0(interactionPolicyCanReblogAlways0)
+	return o
+}
+
+// SetInteractionPolicyCanReblogAlways0 adds the interactionPolicyCanReblogAlways0 to the status create params
+func (o *StatusCreateParams) SetInteractionPolicyCanReblogAlways0(interactionPolicyCanReblogAlways0 *string) {
+	o.InteractionPolicyCanReblogAlways0 = interactionPolicyCanReblogAlways0
+}
+
+// WithInteractionPolicyCanReblogWithApproval0 adds the interactionPolicyCanReblogWithApproval0 to the status create params
+func (o *StatusCreateParams) WithInteractionPolicyCanReblogWithApproval0(interactionPolicyCanReblogWithApproval0 *string) *StatusCreateParams {
+	o.SetInteractionPolicyCanReblogWithApproval0(interactionPolicyCanReblogWithApproval0)
+	return o
+}
+
+// SetInteractionPolicyCanReblogWithApproval0 adds the interactionPolicyCanReblogWithApproval0 to the status create params
+func (o *StatusCreateParams) SetInteractionPolicyCanReblogWithApproval0(interactionPolicyCanReblogWithApproval0 *string) {
+	o.InteractionPolicyCanReblogWithApproval0 = interactionPolicyCanReblogWithApproval0
+}
+
+// WithInteractionPolicyCanReplyAlways0 adds the interactionPolicyCanReplyAlways0 to the status create params
+func (o *StatusCreateParams) WithInteractionPolicyCanReplyAlways0(interactionPolicyCanReplyAlways0 *string) *StatusCreateParams {
+	o.SetInteractionPolicyCanReplyAlways0(interactionPolicyCanReplyAlways0)
+	return o
+}
+
+// SetInteractionPolicyCanReplyAlways0 adds the interactionPolicyCanReplyAlways0 to the status create params
+func (o *StatusCreateParams) SetInteractionPolicyCanReplyAlways0(interactionPolicyCanReplyAlways0 *string) {
+	o.InteractionPolicyCanReplyAlways0 = interactionPolicyCanReplyAlways0
+}
+
+// WithInteractionPolicyCanReplyWithApproval0 adds the interactionPolicyCanReplyWithApproval0 to the status create params
+func (o *StatusCreateParams) WithInteractionPolicyCanReplyWithApproval0(interactionPolicyCanReplyWithApproval0 *string) *StatusCreateParams {
+	o.SetInteractionPolicyCanReplyWithApproval0(interactionPolicyCanReplyWithApproval0)
+	return o
+}
+
+// SetInteractionPolicyCanReplyWithApproval0 adds the interactionPolicyCanReplyWithApproval0 to the status create params
+func (o *StatusCreateParams) SetInteractionPolicyCanReplyWithApproval0(interactionPolicyCanReplyWithApproval0 *string) {
+	o.InteractionPolicyCanReplyWithApproval0 = interactionPolicyCanReplyWithApproval0
+}
+
 // WithLanguage adds the language to the status create params
 func (o *StatusCreateParams) WithLanguage(language *string) *StatusCreateParams {
 	o.SetLanguage(language)
@@ -452,6 +554,96 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		fInReplyToID := frInReplyToID
 		if fInReplyToID != "" {
 			if err := r.SetFormParam("in_reply_to_id", fInReplyToID); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.InteractionPolicyCanFavouriteAlways0 != nil {
+
+		// form param interaction_policy[can_favourite][always][0]
+		var frInteractionPolicyCanFavouriteAlways0 string
+		if o.InteractionPolicyCanFavouriteAlways0 != nil {
+			frInteractionPolicyCanFavouriteAlways0 = *o.InteractionPolicyCanFavouriteAlways0
+		}
+		fInteractionPolicyCanFavouriteAlways0 := frInteractionPolicyCanFavouriteAlways0
+		if fInteractionPolicyCanFavouriteAlways0 != "" {
+			if err := r.SetFormParam("interaction_policy[can_favourite][always][0]", fInteractionPolicyCanFavouriteAlways0); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.InteractionPolicyCanFavouriteWithApproval0 != nil {
+
+		// form param interaction_policy[can_favourite][with_approval][0]
+		var frInteractionPolicyCanFavouriteWithApproval0 string
+		if o.InteractionPolicyCanFavouriteWithApproval0 != nil {
+			frInteractionPolicyCanFavouriteWithApproval0 = *o.InteractionPolicyCanFavouriteWithApproval0
+		}
+		fInteractionPolicyCanFavouriteWithApproval0 := frInteractionPolicyCanFavouriteWithApproval0
+		if fInteractionPolicyCanFavouriteWithApproval0 != "" {
+			if err := r.SetFormParam("interaction_policy[can_favourite][with_approval][0]", fInteractionPolicyCanFavouriteWithApproval0); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.InteractionPolicyCanReblogAlways0 != nil {
+
+		// form param interaction_policy[can_reblog][always][0]
+		var frInteractionPolicyCanReblogAlways0 string
+		if o.InteractionPolicyCanReblogAlways0 != nil {
+			frInteractionPolicyCanReblogAlways0 = *o.InteractionPolicyCanReblogAlways0
+		}
+		fInteractionPolicyCanReblogAlways0 := frInteractionPolicyCanReblogAlways0
+		if fInteractionPolicyCanReblogAlways0 != "" {
+			if err := r.SetFormParam("interaction_policy[can_reblog][always][0]", fInteractionPolicyCanReblogAlways0); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.InteractionPolicyCanReblogWithApproval0 != nil {
+
+		// form param interaction_policy[can_reblog][with_approval][0]
+		var frInteractionPolicyCanReblogWithApproval0 string
+		if o.InteractionPolicyCanReblogWithApproval0 != nil {
+			frInteractionPolicyCanReblogWithApproval0 = *o.InteractionPolicyCanReblogWithApproval0
+		}
+		fInteractionPolicyCanReblogWithApproval0 := frInteractionPolicyCanReblogWithApproval0
+		if fInteractionPolicyCanReblogWithApproval0 != "" {
+			if err := r.SetFormParam("interaction_policy[can_reblog][with_approval][0]", fInteractionPolicyCanReblogWithApproval0); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.InteractionPolicyCanReplyAlways0 != nil {
+
+		// form param interaction_policy[can_reply][always][0]
+		var frInteractionPolicyCanReplyAlways0 string
+		if o.InteractionPolicyCanReplyAlways0 != nil {
+			frInteractionPolicyCanReplyAlways0 = *o.InteractionPolicyCanReplyAlways0
+		}
+		fInteractionPolicyCanReplyAlways0 := frInteractionPolicyCanReplyAlways0
+		if fInteractionPolicyCanReplyAlways0 != "" {
+			if err := r.SetFormParam("interaction_policy[can_reply][always][0]", fInteractionPolicyCanReplyAlways0); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.InteractionPolicyCanReplyWithApproval0 != nil {
+
+		// form param interaction_policy[can_reply][with_approval][0]
+		var frInteractionPolicyCanReplyWithApproval0 string
+		if o.InteractionPolicyCanReplyWithApproval0 != nil {
+			frInteractionPolicyCanReplyWithApproval0 = *o.InteractionPolicyCanReplyWithApproval0
+		}
+		fInteractionPolicyCanReplyWithApproval0 := frInteractionPolicyCanReplyWithApproval0
+		if fInteractionPolicyCanReplyWithApproval0 != "" {
+			if err := r.SetFormParam("interaction_policy[can_reply][with_approval][0]", fInteractionPolicyCanReplyWithApproval0); err != nil {
 				return err
 			}
 		}
