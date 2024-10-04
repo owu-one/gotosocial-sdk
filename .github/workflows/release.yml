@@ -62,6 +62,9 @@ jobs:
         with:
           commit_message: "bump version to ${{ env.TAG }}"
           branch: "release/${{ env.TAG }}"
+      - name: Push
+        if: steps.generate-client.outputs.generated == 'true'
+        run: git push origin "release/${{ env.TAG }}"
       - name: Release
         if: steps.generate-client.outputs.generated == 'true'
         uses: softprops/action-gh-release@v2
