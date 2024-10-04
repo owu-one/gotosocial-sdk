@@ -36,6 +36,12 @@ jobs:
             export TAG=${{ github.event.inputs.tag }}
           fi
           echo "TAG=$TAG" >> $GITHUB_ENV
+          if [[ $TAG == *"rc"* || $TAG == *"beta"* || $TAG == *"alpha"* ]]; then
+            export PRERELEASE=true
+          else
+            export PRERELEASE=false
+          fi
+          echo "PRERELEASE=$PRERELEASE" >> $GITHUB_ENV
       - name: Clean Temporary Files
         run: |
           rm -rf gotosocial
@@ -72,6 +78,7 @@ jobs:
           body: "Bump version to ${{ env.TAG }}"
           tag_name: ${{ env.TAG }}
           target_commitish: "release/${{ env.TAG }}"
+          prerelease: ${{ env.PRERELEASE }}
       - name: Remove Temporary Branch
         if: steps.generate-client.outputs.generated == 'true'
         run: git push origin --delete "release/${{ env.TAG }}"
