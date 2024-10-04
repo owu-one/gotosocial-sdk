@@ -78,11 +78,18 @@ func WithContentTypeApplicationxWwwFormUrlencoded(r *runtime.ClientOperation) {
 	r.ConsumesMediaTypes = []string{"application/x-www-form-urlencoded"}
 }
 
+// WithContentTypeApplicationXML sets the Content-Type header to "application/xml".
+func WithContentTypeApplicationXML(r *runtime.ClientOperation) {
+	r.ConsumesMediaTypes = []string{"application/xml"}
+}
+
 // ClientService is the interface for Client methods
 type ClientService interface {
 	StatusBookmark(params *StatusBookmarkParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusBookmarkOK, error)
 
 	StatusBoostedBy(params *StatusBoostedByParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusBoostedByOK, error)
+
+	StatusContext(params *StatusContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusContextOK, error)
 
 	StatusCreate(params *StatusCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusCreateOK, error)
 
@@ -113,8 +120,6 @@ type ClientService interface {
 	StatusUnpin(params *StatusUnpinParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusUnpinOK, error)
 
 	StatusUnreblog(params *StatusUnreblogParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusUnreblogOK, error)
-
-	ThreadContext(params *ThreadContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ThreadContextOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -198,27 +203,52 @@ func (a *Client) StatusBoostedBy(params *StatusBoostedByParams, authInfo runtime
 }
 
 /*
-	StatusCreate creates a new status using the given form field parameters
+StatusContext returns ancestors and descendants of the given status
+
+The returned statuses will be ordered in a thread structure, so they are suitable to be displayed in the order in which they were returned.
+*/
+func (a *Client) StatusContext(params *StatusContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusContextOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStatusContextParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "statusContext",
+		Method:             "GET",
+		PathPattern:        "/api/v1/statuses/{id}/context",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &StatusContextReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StatusContextOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for statusContext: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	StatusCreate creates a new status
 
 	The parameters can also be given in the body of the request, as JSON, if the content-type is set to 'application/json'.
 
-The 'interaction_policy' field can be used to set an interaction policy for this status.
-
-If submitting using form data, use the following pattern to set an interaction policy:
-
-`interaction_policy[INTERACTION_TYPE][CONDITION][INDEX]=Value`
-
-For example: `interaction_policy[can_reply][always][0]=author`
-
-Using `curl` this might look something like:
-
-`curl -F 'interaction_policy[can_reply][always][0]=author' -F 'interaction_policy[can_reply][always][1]=followers' [... other form fields ...]`
-
-The JSON equivalent would be:
-
-`curl -H 'Content-Type: application/json' -d '{"interaction_policy":{"can_reply":{"always":["author","followers"]}} [... other json fields ...]}'`
-
-The server will perform some normalization on the submitted policy so that you can't submit something totally invalid.
+The parameters can also be given in the body of the request, as XML, if the content-type is set to 'application/xml'.
 */
 func (a *Client) StatusCreate(params *StatusCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusCreateOK, error) {
 	// TODO: Validate the params before sending
@@ -230,7 +260,7 @@ func (a *Client) StatusCreate(params *StatusCreateParams, authInfo runtime.Clien
 		Method:             "POST",
 		PathPattern:        "/api/v1/statuses",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json", "application/x-www-form-urlencoded"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml", "application/x-www-form-urlencoded"},
 		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &StatusCreateReader{formats: a.formats},
@@ -822,47 +852,6 @@ func (a *Client) StatusUnreblog(params *StatusUnreblogParams, authInfo runtime.C
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for statusUnreblog: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-ThreadContext returns ancestors and descendants of the given status
-
-The returned statuses will be ordered in a thread structure, so they are suitable to be displayed in the order in which they were returned.
-*/
-func (a *Client) ThreadContext(params *ThreadContextParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ThreadContextOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewThreadContextParams()
-	}
-	op := &runtime.ClientOperation{
-		ID:                 "threadContext",
-		Method:             "GET",
-		PathPattern:        "/api/v1/statuses/{id}/context",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &ThreadContextReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*ThreadContextOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for threadContext: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

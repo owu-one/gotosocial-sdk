@@ -19,14 +19,12 @@ import (
 	"github.com/owu-one/gotosocial-sdk/client/custom_emojis"
 	"github.com/owu-one/gotosocial-sdk/client/debug"
 	"github.com/owu-one/gotosocial-sdk/client/favourites"
+	"github.com/owu-one/gotosocial-sdk/client/featured_tags"
 	"github.com/owu-one/gotosocial-sdk/client/federation"
 	"github.com/owu-one/gotosocial-sdk/client/filters"
 	"github.com/owu-one/gotosocial-sdk/client/follow_requests"
 	"github.com/owu-one/gotosocial-sdk/client/health"
-	"github.com/owu-one/gotosocial-sdk/client/import_export"
 	"github.com/owu-one/gotosocial-sdk/client/instance"
-	"github.com/owu-one/gotosocial-sdk/client/interaction_policies"
-	"github.com/owu-one/gotosocial-sdk/client/interaction_requests"
 	"github.com/owu-one/gotosocial-sdk/client/lists"
 	"github.com/owu-one/gotosocial-sdk/client/markers"
 	"github.com/owu-one/gotosocial-sdk/client/media"
@@ -40,7 +38,6 @@ import (
 	"github.com/owu-one/gotosocial-sdk/client/search"
 	"github.com/owu-one/gotosocial-sdk/client/statuses"
 	"github.com/owu-one/gotosocial-sdk/client/streaming"
-	"github.com/owu-one/gotosocial-sdk/client/tags"
 	"github.com/owu-one/gotosocial-sdk/client/timelines"
 	"github.com/owu-one/gotosocial-sdk/client/user"
 )
@@ -96,14 +93,12 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *GoToSocial
 	cli.CustomEmojis = custom_emojis.New(transport, formats)
 	cli.Debug = debug.New(transport, formats)
 	cli.Favourites = favourites.New(transport, formats)
+	cli.FeaturedTags = featured_tags.New(transport, formats)
 	cli.Federation = federation.New(transport, formats)
 	cli.Filters = filters.New(transport, formats)
 	cli.FollowRequests = follow_requests.New(transport, formats)
 	cli.Health = health.New(transport, formats)
-	cli.ImportExport = import_export.New(transport, formats)
 	cli.Instance = instance.New(transport, formats)
-	cli.InteractionPolicies = interaction_policies.New(transport, formats)
-	cli.InteractionRequests = interaction_requests.New(transport, formats)
 	cli.Lists = lists.New(transport, formats)
 	cli.Markers = markers.New(transport, formats)
 	cli.Media = media.New(transport, formats)
@@ -117,7 +112,6 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *GoToSocial
 	cli.Search = search.New(transport, formats)
 	cli.Statuses = statuses.New(transport, formats)
 	cli.Streaming = streaming.New(transport, formats)
-	cli.Tags = tags.New(transport, formats)
 	cli.Timelines = timelines.New(transport, formats)
 	cli.User = user.New(transport, formats)
 	return cli
@@ -182,6 +176,8 @@ type GoToSocialSwaggerDocumentation struct {
 
 	Favourites favourites.ClientService
 
+	FeaturedTags featured_tags.ClientService
+
 	Federation federation.ClientService
 
 	Filters filters.ClientService
@@ -190,13 +186,7 @@ type GoToSocialSwaggerDocumentation struct {
 
 	Health health.ClientService
 
-	ImportExport import_export.ClientService
-
 	Instance instance.ClientService
-
-	InteractionPolicies interaction_policies.ClientService
-
-	InteractionRequests interaction_requests.ClientService
 
 	Lists lists.ClientService
 
@@ -224,8 +214,6 @@ type GoToSocialSwaggerDocumentation struct {
 
 	Streaming streaming.ClientService
 
-	Tags tags.ClientService
-
 	Timelines timelines.ClientService
 
 	User user.ClientService
@@ -245,14 +233,12 @@ func (c *GoToSocialSwaggerDocumentation) SetTransport(transport runtime.ClientTr
 	c.CustomEmojis.SetTransport(transport)
 	c.Debug.SetTransport(transport)
 	c.Favourites.SetTransport(transport)
+	c.FeaturedTags.SetTransport(transport)
 	c.Federation.SetTransport(transport)
 	c.Filters.SetTransport(transport)
 	c.FollowRequests.SetTransport(transport)
 	c.Health.SetTransport(transport)
-	c.ImportExport.SetTransport(transport)
 	c.Instance.SetTransport(transport)
-	c.InteractionPolicies.SetTransport(transport)
-	c.InteractionRequests.SetTransport(transport)
 	c.Lists.SetTransport(transport)
 	c.Markers.SetTransport(transport)
 	c.Media.SetTransport(transport)
@@ -266,7 +252,6 @@ func (c *GoToSocialSwaggerDocumentation) SetTransport(transport runtime.ClientTr
 	c.Search.SetTransport(transport)
 	c.Statuses.SetTransport(transport)
 	c.Streaming.SetTransport(transport)
-	c.Tags.SetTransport(transport)
 	c.Timelines.SetTransport(transport)
 	c.User.SetTransport(transport)
 }
