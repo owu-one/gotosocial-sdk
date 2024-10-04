@@ -54,6 +54,11 @@ jobs:
             echo "No need to generate client for Tag: $TAG"
             exit 0
           fi
+          export LATEST_PRERELEASE=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases | jq -r '.[].tag_name' | grep -E 'rc|beta|alpha' | sort -r | head -n 1)
+          if [ "$TAG" == "$LATEST_PRERELEASE" ]; then
+            echo "No need to generate client for Tag: $TAG"
+            exit 0
+          fi
           echo "Generating Client for Tag: $TAG"
           git checkout -b "release/${TAG}"
           go get github.com/go-swagger/go-swagger/cmd/swagger
