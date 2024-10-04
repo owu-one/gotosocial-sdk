@@ -28,8 +28,6 @@ jobs:
         with:
           go-version: 'stable'
           check-latest: true
-      - name: Go Mod Tidy
-        run: go mod tidy
       - name: Get Tag
         run: |
           if [ -z "${{ github.event.inputs.tag }}" ]; then
@@ -56,6 +54,8 @@ jobs:
           go run github.com/go-swagger/go-swagger/cmd/swagger generate client --spec https://raw.githubusercontent.com/superseriousbusiness/gotosocial/${TAG}/docs/api/swagger.yaml
           patch -u -p1 -i patches/filter-context.diff
           echo "generated=true" >> $GITHUB_OUTPUT
+      - name: Go Mod Tidy
+        run: go mod tidy
       - name: Commit
         if: steps.generate-client.outputs.generated == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
