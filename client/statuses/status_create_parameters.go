@@ -174,7 +174,7 @@ type StatusCreateParams struct {
 	Providing this parameter will cause ScheduledStatus to be returned instead of Status.
 	Must be at least 5 minutes in the future.
 
-	This feature isn't implemented yet.
+	This feature isn't implemented yet; attemping to set it will return 501 Not Implemented.
 	*/
 	ScheduledAt *string
 
