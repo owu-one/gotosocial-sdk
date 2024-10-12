@@ -93,8 +93,8 @@ type MutedAccount struct {
 	// Example: 01FBVD42CQ3ZEEVMW180SBX03B
 	ID string `json:"id,omitempty"`
 
-	// When the account's most recent status was posted (ISO 8601 Datetime).
-	// Example: 2021-07-30T09:20:25+00:00
+	// When the account's most recent status was posted (ISO 8601 Date).
+	// Example: 2021-07-30
 	LastStatusAt string `json:"last_status_at,omitempty"`
 
 	// Account manually approves follow requests.
