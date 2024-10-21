@@ -32,6 +32,11 @@ type MutedAccount struct {
 	// Example: A cute drawing of a smiling sloth.
 	AvatarDescription string `json:"avatar_description,omitempty"`
 
+	// Database ID of the media attachment for this account's avatar image.
+	// Omitted if no avatar uploaded for this account (ie., default avatar).
+	// Example: 01JAJ3XCD66K3T99JZESCR137W
+	AvatarMediaID string `json:"avatar_media_id,omitempty"`
+
 	// Web location of a static version of the account's avatar.
 	// Only relevant when the account's main avatar is a video or a gif.
 	// Example: https://example.org/media/some_user/avatar/static/avatar.png
@@ -79,6 +84,11 @@ type MutedAccount struct {
 	// Description of this account's header, for alt text.
 	// Example: A sunlit field with purple flowers.
 	HeaderDescription string `json:"header_description,omitempty"`
+
+	// Database ID of the media attachment for this account's header image.
+	// Omitted if no header uploaded for this account (ie., default header).
+	// Example: 01JAJ3XCD66K3T99JZESCR137W
+	HeaderMediaID string `json:"header_media_id,omitempty"`
 
 	// Web location of a static version of the account's header.
 	// Only relevant when the account's main header is a video or a gif.
