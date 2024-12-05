@@ -30,6 +30,10 @@ type StatusReblogged struct {
 	// Example: 2021-07-30T09:20:25+00:00
 	CreatedAt string `json:"created_at,omitempty"`
 
+	// Timestamp of when the status was last edited (ISO 8601 Datetime).
+	// Example: 2021-07-30T09:20:25+00:00
+	EditedAt string `json:"edited_at,omitempty"`
+
 	// Custom emoji to be used when rendering status content.
 	Emojis []*Emoji `json:"emojis"`
 
