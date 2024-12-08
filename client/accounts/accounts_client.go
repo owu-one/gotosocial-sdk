@@ -138,6 +138,8 @@ type ClientService interface {
 
 	AccountVerify(params *AccountVerifyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AccountVerifyOK, error)
 
+	AccountsFeaturedTags(params *AccountsFeaturedTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AccountsFeaturedTagsOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -1120,6 +1122,47 @@ func (a *Client) AccountVerify(params *AccountVerifyParams, authInfo runtime.Cli
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for accountVerify: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+AccountsFeaturedTags gets an array of target account s featured tags
+
+THIS ENDPOINT IS CURRENTLY NOT FULLY IMPLEMENTED: it will always return an empty array.
+*/
+func (a *Client) AccountsFeaturedTags(params *AccountsFeaturedTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AccountsFeaturedTagsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAccountsFeaturedTagsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "accountsFeaturedTags",
+		Method:             "GET",
+		PathPattern:        "/api/v1/accounts/{id}/featured_tags",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &AccountsFeaturedTagsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AccountsFeaturedTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for accountsFeaturedTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
