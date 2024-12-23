@@ -12,6 +12,7 @@ import (
 
 	"github.com/owu-one/gotosocial-sdk/client/accounts"
 	"github.com/owu-one/gotosocial-sdk/client/admin"
+	"github.com/owu-one/gotosocial-sdk/client/announcements"
 	"github.com/owu-one/gotosocial-sdk/client/apps"
 	"github.com/owu-one/gotosocial-sdk/client/blocks"
 	"github.com/owu-one/gotosocial-sdk/client/bookmarks"
@@ -89,6 +90,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *GoToSocial
 	cli.Transport = transport
 	cli.Accounts = accounts.New(transport, formats)
 	cli.Admin = admin.New(transport, formats)
+	cli.Announcements = announcements.New(transport, formats)
 	cli.Apps = apps.New(transport, formats)
 	cli.Blocks = blocks.New(transport, formats)
 	cli.Bookmarks = bookmarks.New(transport, formats)
@@ -168,6 +170,8 @@ type GoToSocialSwaggerDocumentation struct {
 
 	Admin admin.ClientService
 
+	Announcements announcements.ClientService
+
 	Apps apps.ClientService
 
 	Blocks blocks.ClientService
@@ -238,6 +242,7 @@ func (c *GoToSocialSwaggerDocumentation) SetTransport(transport runtime.ClientTr
 	c.Transport = transport
 	c.Accounts.SetTransport(transport)
 	c.Admin.SetTransport(transport)
+	c.Announcements.SetTransport(transport)
 	c.Apps.SetTransport(transport)
 	c.Blocks.SetTransport(transport)
 	c.Bookmarks.SetTransport(transport)

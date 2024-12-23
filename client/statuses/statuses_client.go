@@ -88,6 +88,8 @@ type ClientService interface {
 
 	StatusDelete(params *StatusDeleteParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusDeleteOK, error)
 
+	StatusEdit(params *StatusEditParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusEditOK, error)
+
 	StatusFave(params *StatusFaveParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusFaveOK, error)
 
 	StatusFavedBy(params *StatusFavedByParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusFavedByOK, error)
@@ -296,6 +298,47 @@ func (a *Client) StatusDelete(params *StatusDeleteParams, authInfo runtime.Clien
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for statusDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+StatusEdit edits an existing status using the given form field parameters
+
+The parameters can also be given in the body of the request, as JSON, if the content-type is set to 'application/json'.
+*/
+func (a *Client) StatusEdit(params *StatusEditParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusEditOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStatusEditParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "statusEdit",
+		Method:             "PUT",
+		PathPattern:        "/api/v1/statuses",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json", "application/x-www-form-urlencoded"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &StatusEditReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StatusEditOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for statusEdit: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
