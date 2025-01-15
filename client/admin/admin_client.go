@@ -148,6 +148,20 @@ type ClientService interface {
 
 	DomainPermissionExcludesGet(params *DomainPermissionExcludesGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionExcludesGetOK, error)
 
+	DomainPermissionSubscriptionCreate(params *DomainPermissionSubscriptionCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionCreateOK, error)
+
+	DomainPermissionSubscriptionGet(params *DomainPermissionSubscriptionGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionGetOK, error)
+
+	DomainPermissionSubscriptionRemove(params *DomainPermissionSubscriptionRemoveParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionRemoveOK, error)
+
+	DomainPermissionSubscriptionTest(params *DomainPermissionSubscriptionTestParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionTestOK, error)
+
+	DomainPermissionSubscriptionUpdate(params *DomainPermissionSubscriptionUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionUpdateOK, error)
+
+	DomainPermissionSubscriptionsGet(params *DomainPermissionSubscriptionsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionsGetOK, error)
+
+	DomainPermissionSubscriptionsPreviewGet(params *DomainPermissionSubscriptionsPreviewGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionsPreviewGetOK, error)
+
 	EmojiCategoriesGet(params *EmojiCategoriesGetParams, opts ...ClientOption) (*EmojiCategoriesGetOK, error)
 
 	EmojiCreate(params *EmojiCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiCreateOK, error)
@@ -1400,6 +1414,295 @@ func (a *Client) DomainPermissionExcludesGet(params *DomainPermissionExcludesGet
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for domainPermissionExcludesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DomainPermissionSubscriptionCreate creates a domain permission subscription with the given parameters
+*/
+func (a *Client) DomainPermissionSubscriptionCreate(params *DomainPermissionSubscriptionCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionCreateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionCreateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionCreate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"multipart/form-data", "application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionCreateReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionCreateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DomainPermissionSubscriptionGet gets domain permission subscription with the given ID
+*/
+func (a *Client) DomainPermissionSubscriptionGet(params *DomainPermissionSubscriptionGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DomainPermissionSubscriptionRemove removes a domain permission subscription
+*/
+func (a *Client) DomainPermissionSubscriptionRemove(params *DomainPermissionSubscriptionRemoveParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionRemoveOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionRemoveParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionRemove",
+		Method:             "POST",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions/{id}/remove",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"multipart/form-data", "application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionRemoveReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionRemoveOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionRemove: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	DomainPermissionSubscriptionTest tests one domain permission subscription by making your instance fetch and parse it without creating permissions
+
+	The response body will be a list of domain permissions that *would* be created by this subscription, OR an error message.
+
+This is useful in cases where you want to check that your instance can actually fetch + parse a list.
+*/
+func (a *Client) DomainPermissionSubscriptionTest(params *DomainPermissionSubscriptionTestParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionTestOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionTestParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionTest",
+		Method:             "POST",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions/{id}/test",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionTestReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionTestOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionTest: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DomainPermissionSubscriptionUpdate updates a domain permission subscription with the given parameters
+*/
+func (a *Client) DomainPermissionSubscriptionUpdate(params *DomainPermissionSubscriptionUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionUpdateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionUpdateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions/${id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"multipart/form-data", "application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionUpdateReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionUpdateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	DomainPermissionSubscriptionsGet views domain permission subscriptions
+
+	The subscriptions will be returned in descending chronological order (newest first), with sequential IDs (bigger = newer).
+
+The next and previous queries can be parsed from the returned Link header.
+
+Example:
+
+```
+<https://example.org/api/v1/admin/domain_permission_subscriptions?limit=20&max_id=01FC0SKA48HNSVR6YKZCQGS2V8>; rel="next", <https://example.org/api/v1/admin/domain_permission_subscriptions?limit=20&min_id=01FC0SKW5JK2Q4EVAV2B462YY0>; rel="prev"
+````
+*/
+func (a *Client) DomainPermissionSubscriptionsGet(params *DomainPermissionSubscriptionsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionsGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionsGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionsGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DomainPermissionSubscriptionsPreviewGet views all domain permission subscriptions of the given permission type in priority order highest to lowest
+
+This view allows you to see the order in which domain permissions will actually be fetched and created.
+*/
+func (a *Client) DomainPermissionSubscriptionsPreviewGet(params *DomainPermissionSubscriptionsPreviewGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionsPreviewGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainPermissionSubscriptionsPreviewGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainPermissionSubscriptionsPreviewGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/admin/domain_permission_subscriptions/preview",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainPermissionSubscriptionsPreviewGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainPermissionSubscriptionsPreviewGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainPermissionSubscriptionsPreviewGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
