@@ -681,11 +681,11 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 
 	if o.MediaIDs != nil {
 
-		// binding items for media_ids
+		// binding items for media_ids[]
 		joinedMediaIds := o.bindParamMediaIds(reg)
 
-		// form array param media_ids
-		if err := r.SetFormParam("media_ids", joinedMediaIds...); err != nil {
+		// form array param media_ids[]
+		if err := r.SetFormParam("media_ids[]", joinedMediaIds...); err != nil {
 			return err
 		}
 	}
@@ -827,7 +827,7 @@ func (o *StatusCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 	return nil
 }
 
-// bindParamStatusCreate binds the parameter media_ids
+// bindParamStatusCreate binds the parameter media_ids[]
 func (o *StatusCreateParams) bindParamMediaIds(formats strfmt.Registry) []string {
 	mediaIdsIR := o.MediaIDs
 
@@ -838,8 +838,8 @@ func (o *StatusCreateParams) bindParamMediaIds(formats strfmt.Registry) []string
 		mediaIdsIC = append(mediaIdsIC, mediaIdsIIV)
 	}
 
-	// items.CollectionFormat: ""
-	mediaIdsIS := swag.JoinByFormat(mediaIdsIC, "")
+	// items.CollectionFormat: "multi"
+	mediaIdsIS := swag.JoinByFormat(mediaIdsIC, "multi")
 
 	return mediaIdsIS
 }
@@ -855,8 +855,8 @@ func (o *StatusCreateParams) bindParamPollOptions(formats strfmt.Registry) []str
 		pollOptionsIC = append(pollOptionsIC, pollOptionsIIV)
 	}
 
-	// items.CollectionFormat: ""
-	pollOptionsIS := swag.JoinByFormat(pollOptionsIC, "")
+	// items.CollectionFormat: "multi"
+	pollOptionsIS := swag.JoinByFormat(pollOptionsIC, "multi")
 
 	return pollOptionsIS
 }
