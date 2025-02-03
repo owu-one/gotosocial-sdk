@@ -140,6 +140,14 @@ type PushSubscriptionPutParams struct {
 	*/
 	DataAlertsUpdate *bool
 
+	/* DataPolicy.
+
+	   Which accounts to receive push notifications from.
+
+	   Default: "all"
+	*/
+	DataPolicy *string
+
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -183,6 +191,8 @@ func (o *PushSubscriptionPutParams) SetDefaults() {
 		dataAlertsStatusDefault = bool(false)
 
 		dataAlertsUpdateDefault = bool(false)
+
+		dataPolicyDefault = string("all")
 	)
 
 	val := PushSubscriptionPutParams{
@@ -199,6 +209,7 @@ func (o *PushSubscriptionPutParams) SetDefaults() {
 		DataAlertsReblog:           &dataAlertsReblogDefault,
 		DataAlertsStatus:           &dataAlertsStatusDefault,
 		DataAlertsUpdate:           &dataAlertsUpdateDefault,
+		DataPolicy:                 &dataPolicyDefault,
 	}
 
 	val.timeout = o.timeout
@@ -381,6 +392,17 @@ func (o *PushSubscriptionPutParams) WithDataAlertsUpdate(dataAlertsUpdate *bool)
 // SetDataAlertsUpdate adds the dataAlertsUpdate to the push subscription put params
 func (o *PushSubscriptionPutParams) SetDataAlertsUpdate(dataAlertsUpdate *bool) {
 	o.DataAlertsUpdate = dataAlertsUpdate
+}
+
+// WithDataPolicy adds the dataPolicy to the push subscription put params
+func (o *PushSubscriptionPutParams) WithDataPolicy(dataPolicy *string) *PushSubscriptionPutParams {
+	o.SetDataPolicy(dataPolicy)
+	return o
+}
+
+// SetDataPolicy adds the dataPolicy to the push subscription put params
+func (o *PushSubscriptionPutParams) SetDataPolicy(dataPolicy *string) {
+	o.DataPolicy = dataPolicy
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -581,6 +603,21 @@ func (o *PushSubscriptionPutParams) WriteToRequest(r runtime.ClientRequest, reg 
 		fDataAlertsUpdate := swag.FormatBool(frDataAlertsUpdate)
 		if fDataAlertsUpdate != "" {
 			if err := r.SetFormParam("data[alerts][update]", fDataAlertsUpdate); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.DataPolicy != nil {
+
+		// form param data[policy]
+		var frDataPolicy string
+		if o.DataPolicy != nil {
+			frDataPolicy = *o.DataPolicy
+		}
+		fDataPolicy := frDataPolicy
+		if fDataPolicy != "" {
+			if err := r.SetFormParam("data[policy]", fDataPolicy); err != nil {
 				return err
 			}
 		}
