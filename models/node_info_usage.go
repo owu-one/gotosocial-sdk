@@ -18,6 +18,9 @@ import (
 // swagger:model NodeInfoUsage
 type NodeInfoUsage struct {
 
+	// local comments
+	LocalComments int64 `json:"localComments,omitempty"`
+
 	// local posts
 	LocalPosts int64 `json:"localPosts,omitempty"`
 

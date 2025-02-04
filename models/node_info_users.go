@@ -17,6 +17,12 @@ import (
 // swagger:model NodeInfoUsers
 type NodeInfoUsers struct {
 
+	// active half year
+	ActiveHalfYear int64 `json:"activeHalfYear,omitempty"`
+
+	// active month
+	ActiveMonth int64 `json:"activeMonth,omitempty"`
+
 	// total
 	Total int64 `json:"total,omitempty"`
 }

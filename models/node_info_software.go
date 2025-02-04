@@ -17,9 +17,17 @@ import (
 // swagger:model NodeInfoSoftware
 type NodeInfoSoftware struct {
 
+	// Homepage for the software. Omitted in version 2.0.
+	// Example: https://docs.gotosocial.org
+	Homepage string `json:"homepage,omitempty"`
+
 	// name
 	// Example: gotosocial
 	Name string `json:"name,omitempty"`
+
+	// Repository for the software. Omitted in version 2.0.
+	// Example: https://codeberg.org/superseriousbusiness/gotosocial
+	Repository string `json:"repository,omitempty"`
 
 	// version
 	// Example: 0.1.2 1234567

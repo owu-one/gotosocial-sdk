@@ -60,6 +60,13 @@ NodeInfoGetParams contains all the parameters to send to the API endpoint
 	Typically these are written to a http.Request.
 */
 type NodeInfoGetParams struct {
+
+	/* SchemaVersion.
+
+	   Schema version of nodeinfo to request. 2.0 and 2.1 are currently supported.
+	*/
+	SchemaVersion string
+
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -113,6 +120,17 @@ func (o *NodeInfoGetParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithSchemaVersion adds the schemaVersion to the node info get params
+func (o *NodeInfoGetParams) WithSchemaVersion(schemaVersion string) *NodeInfoGetParams {
+	o.SetSchemaVersion(schemaVersion)
+	return o
+}
+
+// SetSchemaVersion adds the schemaVersion to the node info get params
+func (o *NodeInfoGetParams) SetSchemaVersion(schemaVersion string) {
+	o.SchemaVersion = schemaVersion
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *NodeInfoGetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -120,6 +138,11 @@ func (o *NodeInfoGetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
+
+	// path param schema_version
+	if err := r.SetPathParam("schema_version", o.SchemaVersion); err != nil {
+		return err
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

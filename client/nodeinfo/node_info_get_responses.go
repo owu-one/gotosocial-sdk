@@ -31,7 +31,7 @@ func (o *NodeInfoGetReader) ReadResponse(response runtime.ClientResponse, consum
 		}
 		return result, nil
 	default:
-		return nil, runtime.NewAPIError("[GET /nodeinfo/2.0] nodeInfoGet", response, response.Code())
+		return nil, runtime.NewAPIError("[GET /nodeinfo/{schema_version}] nodeInfoGet", response, response.Code())
 	}
 }
 
@@ -81,12 +81,12 @@ func (o *NodeInfoGetOK) Code() int {
 
 func (o *NodeInfoGetOK) Error() string {
 	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[GET /nodeinfo/2.0][%d] nodeInfoGetOK %s", 200, payload)
+	return fmt.Sprintf("[GET /nodeinfo/{schema_version}][%d] nodeInfoGetOK %s", 200, payload)
 }
 
 func (o *NodeInfoGetOK) String() string {
 	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[GET /nodeinfo/2.0][%d] nodeInfoGetOK %s", 200, payload)
+	return fmt.Sprintf("[GET /nodeinfo/{schema_version}][%d] nodeInfoGetOK %s", 200, payload)
 }
 
 func (o *NodeInfoGetOK) GetPayload() *models.Nodeinfo {

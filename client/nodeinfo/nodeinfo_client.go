@@ -78,6 +78,11 @@ func WithAcceptApplicationJSONProfileHTTPNodeinfoDiasporaSoftwareNsSchema20(r *r
 	r.ProducesMediaTypes = []string{"application/json; profile=\"http://nodeinfo.diaspora.software/ns/schema/2.0#\""}
 }
 
+// WithAcceptApplicationJSONProfileHTTPNodeinfoDiasporaSoftwareNsSchema21 sets the Accept header to "application/json; profile=\"http://nodeinfo.diaspora.software/ns/schema/2.1#\"".
+func WithAcceptApplicationJSONProfileHTTPNodeinfoDiasporaSoftwareNsSchema21(r *runtime.ClientOperation) {
+	r.ProducesMediaTypes = []string{"application/json; profile=\"http://nodeinfo.diaspora.software/ns/schema/2.1#\""}
+}
+
 // ClientService is the interface for Client methods
 type ClientService interface {
 	NodeInfoGet(params *NodeInfoGetParams, opts ...ClientOption) (*NodeInfoGetOK, error)
@@ -98,8 +103,8 @@ func (a *Client) NodeInfoGet(params *NodeInfoGetParams, opts ...ClientOption) (*
 	op := &runtime.ClientOperation{
 		ID:                 "nodeInfoGet",
 		Method:             "GET",
-		PathPattern:        "/nodeinfo/2.0",
-		ProducesMediaTypes: []string{"application/json; profile=\"http://nodeinfo.diaspora.software/ns/schema/2.0#\""},
+		PathPattern:        "/nodeinfo/{schema_version}",
+		ProducesMediaTypes: []string{"application/json; profile=\"http://nodeinfo.diaspora.software/ns/schema/2.0#\"", "application/json; profile=\"http://nodeinfo.diaspora.software/ns/schema/2.1#\""},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
 		Params:             params,
