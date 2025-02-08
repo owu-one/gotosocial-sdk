@@ -79,6 +79,9 @@ type Account struct {
 	// Number of account's followed by this account, according to our instance.
 	FollowingCount int64 `json:"following_count,omitempty"`
 
+	// Account identifies as a Group actor.
+	Group bool `json:"group,omitempty"`
+
 	// Web location of the account's header image.
 	// Example: https://example.org/media/some_user/header/original/header.jpeg
 	Header string `json:"header,omitempty"`
