@@ -595,7 +595,7 @@ func (a *Client) AdminRuleGet(params *AdminRuleGetParams, authInfo runtime.Clien
 	op := &runtime.ClientOperation{
 		ID:                 "adminRuleGet",
 		Method:             "GET",
-		PathPattern:        "/api/v1/admin/rules/{id}",
+		PathPattern:        "/api/v1/admin/instance/rules/{id}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -636,7 +636,7 @@ func (a *Client) AdminsRuleGet(params *AdminsRuleGetParams, authInfo runtime.Cli
 	op := &runtime.ClientOperation{
 		ID:                 "adminsRuleGet",
 		Method:             "GET",
-		PathPattern:        "/api/v1/admin/rules",
+		PathPattern:        "/api/v1/admin/instance/rules",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},

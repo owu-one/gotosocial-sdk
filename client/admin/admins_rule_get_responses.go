@@ -61,7 +61,7 @@ func (o *AdminsRuleGetReader) ReadResponse(response runtime.ClientResponse, cons
 		}
 		return nil, result
 	default:
-		return nil, runtime.NewAPIError("[GET /api/v1/admin/rules] adminsRuleGet", response, response.Code())
+		return nil, runtime.NewAPIError("[GET /api/v1/admin/instance/rules] adminsRuleGet", response, response.Code())
 	}
 }
 
@@ -111,12 +111,12 @@ func (o *AdminsRuleGetOK) Code() int {
 
 func (o *AdminsRuleGetOK) Error() string {
 	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetOK %s", 200, payload)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetOK %s", 200, payload)
 }
 
 func (o *AdminsRuleGetOK) String() string {
 	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetOK %s", 200, payload)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetOK %s", 200, payload)
 }
 
 func (o *AdminsRuleGetOK) GetPayload() []*models.InstanceRule {
@@ -177,11 +177,11 @@ func (o *AdminsRuleGetBadRequest) Code() int {
 }
 
 func (o *AdminsRuleGetBadRequest) Error() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetBadRequest", 400)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetBadRequest", 400)
 }
 
 func (o *AdminsRuleGetBadRequest) String() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetBadRequest", 400)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetBadRequest", 400)
 }
 
 func (o *AdminsRuleGetBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -233,11 +233,11 @@ func (o *AdminsRuleGetUnauthorized) Code() int {
 }
 
 func (o *AdminsRuleGetUnauthorized) Error() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetUnauthorized", 401)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetUnauthorized", 401)
 }
 
 func (o *AdminsRuleGetUnauthorized) String() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetUnauthorized", 401)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetUnauthorized", 401)
 }
 
 func (o *AdminsRuleGetUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -289,11 +289,11 @@ func (o *AdminsRuleGetNotFound) Code() int {
 }
 
 func (o *AdminsRuleGetNotFound) Error() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetNotFound", 404)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetNotFound", 404)
 }
 
 func (o *AdminsRuleGetNotFound) String() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetNotFound", 404)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetNotFound", 404)
 }
 
 func (o *AdminsRuleGetNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -345,11 +345,11 @@ func (o *AdminsRuleGetNotAcceptable) Code() int {
 }
 
 func (o *AdminsRuleGetNotAcceptable) Error() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetNotAcceptable", 406)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetNotAcceptable", 406)
 }
 
 func (o *AdminsRuleGetNotAcceptable) String() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetNotAcceptable", 406)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetNotAcceptable", 406)
 }
 
 func (o *AdminsRuleGetNotAcceptable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -401,11 +401,11 @@ func (o *AdminsRuleGetInternalServerError) Code() int {
 }
 
 func (o *AdminsRuleGetInternalServerError) Error() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetInternalServerError", 500)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetInternalServerError", 500)
 }
 
 func (o *AdminsRuleGetInternalServerError) String() string {
-	return fmt.Sprintf("[GET /api/v1/admin/rules][%d] adminsRuleGetInternalServerError", 500)
+	return fmt.Sprintf("[GET /api/v1/admin/instance/rules][%d] adminsRuleGetInternalServerError", 500)
 }
 
 func (o *AdminsRuleGetInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
