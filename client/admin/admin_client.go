@@ -162,17 +162,17 @@ type ClientService interface {
 
 	DomainPermissionSubscriptionsPreviewGet(params *DomainPermissionSubscriptionsPreviewGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainPermissionSubscriptionsPreviewGetOK, error)
 
-	EmojiCategoriesGet(params *EmojiCategoriesGetParams, opts ...ClientOption) (*EmojiCategoriesGetOK, error)
+	EmojiCategoriesGet(params *EmojiCategoriesGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiCategoriesGetOK, error)
 
 	EmojiCreate(params *EmojiCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiCreateOK, error)
 
 	EmojiDelete(params *EmojiDeleteParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiDeleteOK, error)
 
-	EmojiGet(params *EmojiGetParams, opts ...ClientOption) (*EmojiGetOK, error)
+	EmojiGet(params *EmojiGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiGetOK, error)
 
 	EmojiUpdate(params *EmojiUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiUpdateOK, error)
 
-	EmojisGet(params *EmojisGetParams, opts ...ClientOption) (*EmojisGetOK, error)
+	EmojisGet(params *EmojisGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojisGetOK, error)
 
 	HeaderFilterAllowCreate(params *HeaderFilterAllowCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*HeaderFilterAllowCreateOK, error)
 
@@ -1709,7 +1709,7 @@ func (a *Client) DomainPermissionSubscriptionsPreviewGet(params *DomainPermissio
 /*
 EmojiCategoriesGet gets a list of existing emoji categories
 */
-func (a *Client) EmojiCategoriesGet(params *EmojiCategoriesGetParams, opts ...ClientOption) (*EmojiCategoriesGetOK, error) {
+func (a *Client) EmojiCategoriesGet(params *EmojiCategoriesGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiCategoriesGetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewEmojiCategoriesGetParams()
@@ -1723,6 +1723,7 @@ func (a *Client) EmojiCategoriesGet(params *EmojiCategoriesGetParams, opts ...Cl
 		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &EmojiCategoriesGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
@@ -1831,7 +1832,7 @@ func (a *Client) EmojiDelete(params *EmojiDeleteParams, authInfo runtime.ClientA
 /*
 EmojiGet gets the admin view of a single emoji
 */
-func (a *Client) EmojiGet(params *EmojiGetParams, opts ...ClientOption) (*EmojiGetOK, error) {
+func (a *Client) EmojiGet(params *EmojiGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojiGetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewEmojiGetParams()
@@ -1845,6 +1846,7 @@ func (a *Client) EmojiGet(params *EmojiGetParams, opts ...ClientOption) (*EmojiG
 		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &EmojiGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
@@ -1926,7 +1928,7 @@ Example:
 
 `<http://localhost:8080/api/v1/admin/custom_emojis?limit=30&max_shortcode_domain=yell@fossbros-anonymous.io&filter=domain:all>; rel="next", <http://localhost:8080/api/v1/admin/custom_emojis?limit=30&min_shortcode_domain=rainbow@&filter=domain:all>; rel="prev"`
 */
-func (a *Client) EmojisGet(params *EmojisGetParams, opts ...ClientOption) (*EmojisGetOK, error) {
+func (a *Client) EmojisGet(params *EmojisGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*EmojisGetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewEmojisGetParams()
@@ -1940,6 +1942,7 @@ func (a *Client) EmojisGet(params *EmojisGetParams, opts ...ClientOption) (*Emoj
 		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &EmojisGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}

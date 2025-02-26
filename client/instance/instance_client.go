@@ -84,7 +84,7 @@ type ClientService interface {
 
 	InstanceGetV2(params *InstanceGetV2Params, opts ...ClientOption) (*InstanceGetV2OK, error)
 
-	InstancePeersGet(params *InstancePeersGetParams, opts ...ClientOption) (*InstancePeersGetOK, error)
+	InstancePeersGet(params *InstancePeersGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstancePeersGetOK, error)
 
 	InstanceUpdate(params *InstanceUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstanceUpdateOK, error)
 
@@ -172,7 +172,7 @@ func (a *Client) InstanceGetV2(params *InstanceGetV2Params, opts ...ClientOption
 /*
 InstancePeersGet instance peers get API
 */
-func (a *Client) InstancePeersGet(params *InstancePeersGetParams, opts ...ClientOption) (*InstancePeersGetOK, error) {
+func (a *Client) InstancePeersGet(params *InstancePeersGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstancePeersGetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewInstancePeersGetParams()
@@ -186,6 +186,7 @@ func (a *Client) InstancePeersGet(params *InstancePeersGetParams, opts ...Client
 		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &InstancePeersGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
