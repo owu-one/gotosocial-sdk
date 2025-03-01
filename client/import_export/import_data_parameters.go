@@ -79,7 +79,7 @@ type ImportDataParams struct {
 	/* Type.
 
 	     Type of entries contained in the data file:
-	- `following` - accounts to follow. - `blocks` - accounts to block.
+	- `following` - accounts to follow. - `blocks` - accounts to block. - `mutes` - accounts to mute.
 	*/
 	Type string
 
