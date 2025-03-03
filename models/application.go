@@ -35,6 +35,13 @@ type Application struct {
 	// Example: https://example.org/callback?some=query
 	RedirectURI string `json:"redirect_uri,omitempty"`
 
+	// Post-authorization redirect URIs for the application (OAuth2).
+	// Example: [https://example.org/callback?some=query]
+	RedirectURIs []string `json:"redirect_uris"`
+
+	// OAuth scopes for this application.
+	Scopes []string `json:"scopes"`
+
 	// Push API key for this application.
 	VapidKey string `json:"vapid_key,omitempty"`
 

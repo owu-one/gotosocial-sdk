@@ -69,15 +69,17 @@ type AppCreateParams struct {
 
 	/* RedirectUris.
 
-	     Where the user should be redirected after authorization.
+	     Single redirect URI or newline-separated list of redirect URIs (optional).
 
 	To display the authorization code to the user instead of redirecting to a web page, use `urn:ietf:wg:oauth:2.0:oob` in this parameter.
+
+	If no redirect URIs are provided, defaults to `urn:ietf:wg:oauth:2.0:oob`.
 	*/
-	RedirectURIs string
+	RedirectURIs *string
 
 	/* Scopes.
 
-	     Space separated list of scopes.
+	     Space separated list of scopes (optional).
 
 	If no scopes are provided, defaults to `read`.
 	*/
@@ -154,13 +156,13 @@ func (o *AppCreateParams) SetClientName(clientName string) {
 }
 
 // WithRedirectURIs adds the redirectUris to the app create params
-func (o *AppCreateParams) WithRedirectURIs(redirectUris string) *AppCreateParams {
+func (o *AppCreateParams) WithRedirectURIs(redirectUris *string) *AppCreateParams {
 	o.SetRedirectURIs(redirectUris)
 	return o
 }
 
 // SetRedirectURIs adds the redirectUris to the app create params
-func (o *AppCreateParams) SetRedirectURIs(redirectUris string) {
+func (o *AppCreateParams) SetRedirectURIs(redirectUris *string) {
 	o.RedirectURIs = redirectUris
 }
 
@@ -203,12 +205,18 @@ func (o *AppCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		}
 	}
 
-	// form param redirect_uris
-	frRedirectUris := o.RedirectURIs
-	fRedirectUris := frRedirectUris
-	if fRedirectUris != "" {
-		if err := r.SetFormParam("redirect_uris", fRedirectUris); err != nil {
-			return err
+	if o.RedirectURIs != nil {
+
+		// form param redirect_uris
+		var frRedirectUris string
+		if o.RedirectURIs != nil {
+			frRedirectUris = *o.RedirectURIs
+		}
+		fRedirectUris := frRedirectUris
+		if fRedirectUris != "" {
+			if err := r.SetFormParam("redirect_uris", fRedirectUris); err != nil {
+				return err
+			}
 		}
 	}
 
