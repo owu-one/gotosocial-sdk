@@ -44,6 +44,7 @@ import (
 	"github.com/owu-one/gotosocial-sdk/client/streaming"
 	"github.com/owu-one/gotosocial-sdk/client/tags"
 	"github.com/owu-one/gotosocial-sdk/client/timelines"
+	"github.com/owu-one/gotosocial-sdk/client/tokens"
 	"github.com/owu-one/gotosocial-sdk/client/user"
 )
 
@@ -123,6 +124,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *GoToSocial
 	cli.Streaming = streaming.New(transport, formats)
 	cli.Tags = tags.New(transport, formats)
 	cli.Timelines = timelines.New(transport, formats)
+	cli.Tokens = tokens.New(transport, formats)
 	cli.User = user.New(transport, formats)
 	return cli
 }
@@ -236,6 +238,8 @@ type GoToSocialSwaggerDocumentation struct {
 
 	Timelines timelines.ClientService
 
+	Tokens tokens.ClientService
+
 	User user.ClientService
 
 	Transport runtime.ClientTransport
@@ -278,5 +282,6 @@ func (c *GoToSocialSwaggerDocumentation) SetTransport(transport runtime.ClientTr
 	c.Streaming.SetTransport(transport)
 	c.Tags.SetTransport(transport)
 	c.Timelines.SetTransport(transport)
+	c.Tokens.SetTransport(transport)
 	c.User.SetTransport(transport)
 }
