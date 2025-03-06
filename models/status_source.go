@@ -18,6 +18,9 @@ import (
 // swagger:model StatusSource
 type StatusSource struct {
 
+	// Content type that was used to parse the text.
+	ContentType string `json:"content_type,omitempty"`
+
 	// ID of the status.
 	// Example: 01FBVD42CQ3ZEEVMW180SBX03B
 	ID string `json:"id,omitempty"`
