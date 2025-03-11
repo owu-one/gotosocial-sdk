@@ -26,11 +26,6 @@ type Status struct {
 	// Example: \u003cp\u003eHey this is a status!\u003c/p\u003e
 	Content string `json:"content,omitempty"`
 
-	// Content type that was used to parse the status's text. Returned when
-	// status is deleted, so if the user is redrafting the message the client
-	// can default to the same content type.
-	ContentType string `json:"content_type,omitempty"`
-
 	// The date when this status was created (ISO 8601 Datetime).
 	// Example: 2021-07-30T09:20:25+00:00
 	CreatedAt string `json:"created_at,omitempty"`
