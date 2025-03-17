@@ -87,6 +87,12 @@ func WithContentTypeApplicationXML(r *runtime.ClientOperation) {
 type ClientService interface {
 	AppCreate(params *AppCreateParams, opts ...ClientOption) (*AppCreateOK, error)
 
+	AppDelete(params *AppDeleteParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AppDeleteOK, error)
+
+	AppGet(params *AppGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AppGetOK, error)
+
+	AppsGet(params *AppsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AppsGetOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -97,8 +103,10 @@ type ClientService interface {
 
 This can then be used to register a new account, or (through user auth) obtain an access token.
 
-The parameters can also be given in the body of the request, as JSON, if the content-type is set to 'application/json'.
-The parameters can also be given in the body of the request, as XML, if the content-type is set to 'application/xml'.
+If the application was registered with a Bearer token passed in the Authorization header, the created application will be managed by the authenticated user (must have scope write:applications).
+
+Parameters can also be given in the body of the request, as JSON, if the content-type is set to 'application/json'.
+Parameters can also be given in the body of the request, as XML, if the content-type is set to 'application/xml'.
 */
 func (a *Client) AppCreate(params *AppCreateParams, opts ...ClientOption) (*AppCreateOK, error) {
 	// TODO: Validate the params before sending
@@ -132,6 +140,131 @@ func (a *Client) AppCreate(params *AppCreateParams, opts ...ClientOption) (*AppC
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for appCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+AppDelete deletes a single application managed by the requester
+*/
+func (a *Client) AppDelete(params *AppDeleteParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AppDeleteOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAppDeleteParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "appDelete",
+		Method:             "DELETE",
+		PathPattern:        "/api/v1/apps/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &AppDeleteReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AppDeleteOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for appDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+AppGet gets a single application managed by the requester
+*/
+func (a *Client) AppGet(params *AppGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AppGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAppGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "appGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/apps/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &AppGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AppGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for appGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	AppsGet gets an array of applications that are managed by the requester
+
+	The next and previous queries can be parsed from the returned Link header.
+
+Example:
+
+```
+<https://example.org/api/v1/apps?limit=80&max_id=01FC0SKA48HNSVR6YKZCQGS2V8>; rel="next", <https://example.org/api/v1/apps?limit=80&min_id=01FC0SKW5JK2Q4EVAV2B462YY0>; rel="prev"
+````
+*/
+func (a *Client) AppsGet(params *AppsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AppsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAppsGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "appsGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/apps",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &AppsGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AppsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for appsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
