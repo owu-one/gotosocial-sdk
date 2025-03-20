@@ -23,10 +23,6 @@ type Application struct {
 	// Client secret associated with this application.
 	ClientSecret string `json:"client_secret,omitempty"`
 
-	// When the application was created. (ISO 8601 Datetime)
-	// Example: 2021-07-30T09:20:25+00:00
-	CreatedAt string `json:"created_at,omitempty"`
-
 	// The ID of the application.
 	// Example: 01FBVD42CQ3ZEEVMW180SBX03B
 	ID string `json:"id,omitempty"`
@@ -38,13 +34,6 @@ type Application struct {
 	// Post-authorization redirect URI for the application (OAuth2).
 	// Example: https://example.org/callback?some=query
 	RedirectURI string `json:"redirect_uri,omitempty"`
-
-	// Post-authorization redirect URIs for the application (OAuth2).
-	// Example: [https://example.org/callback?some=query]
-	RedirectURIs []string `json:"redirect_uris"`
-
-	// OAuth scopes for this application.
-	Scopes []string `json:"scopes"`
 
 	// Push API key for this application.
 	VapidKey string `json:"vapid_key,omitempty"`
