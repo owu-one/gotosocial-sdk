@@ -52,6 +52,11 @@ type Source struct {
 	// The default posting content type for new statuses.
 	StatusContentType string `json:"status_content_type,omitempty"`
 
+	// Layout to use for the web view of the account.
+	// "microblog": default, classic microblog layout.
+	// "gallery": gallery layout with media only.
+	WebLayout string `json:"web_layout,omitempty"`
+
 	// Visibility level(s) of posts to show for this account via the web api.
 	// "public" = default, show only Public visibility posts on the web.
 	// "unlisted" = show Public *and* Unlisted visibility posts on the web.

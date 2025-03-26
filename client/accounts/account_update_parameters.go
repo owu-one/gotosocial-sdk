@@ -236,6 +236,14 @@ type AccountUpdateParams struct {
 	*/
 	Theme *string
 
+	/* WebLayout.
+
+	     Layout to use for the web view of the account.
+	"microblog": default, classic microblog layout.
+	"gallery": gallery layout with media only.
+	*/
+	WebLayout *string
+
 	/* WebVisibility.
 
 	     Posts to show on the web view of the account.
@@ -615,6 +623,17 @@ func (o *AccountUpdateParams) WithTheme(theme *string) *AccountUpdateParams {
 // SetTheme adds the theme to the account update params
 func (o *AccountUpdateParams) SetTheme(theme *string) {
 	o.Theme = theme
+}
+
+// WithWebLayout adds the webLayout to the account update params
+func (o *AccountUpdateParams) WithWebLayout(webLayout *string) *AccountUpdateParams {
+	o.SetWebLayout(webLayout)
+	return o
+}
+
+// SetWebLayout adds the webLayout to the account update params
+func (o *AccountUpdateParams) SetWebLayout(webLayout *string) {
+	o.WebLayout = webLayout
 }
 
 // WithWebVisibility adds the webVisibility to the account update params
@@ -1024,6 +1043,21 @@ func (o *AccountUpdateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		fTheme := frTheme
 		if fTheme != "" {
 			if err := r.SetFormParam("theme", fTheme); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.WebLayout != nil {
+
+		// form param web_layout
+		var frWebLayout string
+		if o.WebLayout != nil {
+			frWebLayout = *o.WebLayout
+		}
+		fWebLayout := frWebLayout
+		if fWebLayout != "" {
+			if err := r.SetFormParam("web_layout", fWebLayout); err != nil {
 				return err
 			}
 		}
