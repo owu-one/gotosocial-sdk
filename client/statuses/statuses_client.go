@@ -314,7 +314,7 @@ func (a *Client) StatusEdit(params *StatusEditParams, authInfo runtime.ClientAut
 	op := &runtime.ClientOperation{
 		ID:                 "statusEdit",
 		Method:             "PUT",
-		PathPattern:        "/api/v1/statuses",
+		PathPattern:        "/api/v1/statuses/{id}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json", "application/x-www-form-urlencoded"},
 		Schemes:            []string{"http", "https"},

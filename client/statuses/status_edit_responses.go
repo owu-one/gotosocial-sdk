@@ -67,7 +67,7 @@ func (o *StatusEditReader) ReadResponse(response runtime.ClientResponse, consume
 		}
 		return nil, result
 	default:
-		return nil, runtime.NewAPIError("[PUT /api/v1/statuses] statusEdit", response, response.Code())
+		return nil, runtime.NewAPIError("[PUT /api/v1/statuses/{id}] statusEdit", response, response.Code())
 	}
 }
 
@@ -117,12 +117,12 @@ func (o *StatusEditOK) Code() int {
 
 func (o *StatusEditOK) Error() string {
 	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditOK %s", 200, payload)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditOK %s", 200, payload)
 }
 
 func (o *StatusEditOK) String() string {
 	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditOK %s", 200, payload)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditOK %s", 200, payload)
 }
 
 func (o *StatusEditOK) GetPayload() *models.Status {
@@ -185,11 +185,11 @@ func (o *StatusEditBadRequest) Code() int {
 }
 
 func (o *StatusEditBadRequest) Error() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditBadRequest", 400)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditBadRequest", 400)
 }
 
 func (o *StatusEditBadRequest) String() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditBadRequest", 400)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditBadRequest", 400)
 }
 
 func (o *StatusEditBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -241,11 +241,11 @@ func (o *StatusEditUnauthorized) Code() int {
 }
 
 func (o *StatusEditUnauthorized) Error() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditUnauthorized", 401)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditUnauthorized", 401)
 }
 
 func (o *StatusEditUnauthorized) String() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditUnauthorized", 401)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditUnauthorized", 401)
 }
 
 func (o *StatusEditUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -297,11 +297,11 @@ func (o *StatusEditForbidden) Code() int {
 }
 
 func (o *StatusEditForbidden) Error() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditForbidden", 403)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditForbidden", 403)
 }
 
 func (o *StatusEditForbidden) String() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditForbidden", 403)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditForbidden", 403)
 }
 
 func (o *StatusEditForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -353,11 +353,11 @@ func (o *StatusEditNotFound) Code() int {
 }
 
 func (o *StatusEditNotFound) Error() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditNotFound", 404)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditNotFound", 404)
 }
 
 func (o *StatusEditNotFound) String() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditNotFound", 404)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditNotFound", 404)
 }
 
 func (o *StatusEditNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -409,11 +409,11 @@ func (o *StatusEditNotAcceptable) Code() int {
 }
 
 func (o *StatusEditNotAcceptable) Error() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditNotAcceptable", 406)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditNotAcceptable", 406)
 }
 
 func (o *StatusEditNotAcceptable) String() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditNotAcceptable", 406)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditNotAcceptable", 406)
 }
 
 func (o *StatusEditNotAcceptable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -465,11 +465,11 @@ func (o *StatusEditInternalServerError) Code() int {
 }
 
 func (o *StatusEditInternalServerError) Error() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditInternalServerError", 500)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditInternalServerError", 500)
 }
 
 func (o *StatusEditInternalServerError) String() string {
-	return fmt.Sprintf("[PUT /api/v1/statuses][%d] statusEditInternalServerError", 500)
+	return fmt.Sprintf("[PUT /api/v1/statuses/{id}][%d] statusEditInternalServerError", 500)
 }
 
 func (o *StatusEditInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

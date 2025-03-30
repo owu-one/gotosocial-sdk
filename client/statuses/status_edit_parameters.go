@@ -68,6 +68,12 @@ type StatusEditParams struct {
 	*/
 	ContentType *string
 
+	/* ID.
+
+	   Target status ID.
+	*/
+	ID string
+
 	/* Language.
 
 	   ISO 639 language code for this status.
@@ -213,6 +219,17 @@ func (o *StatusEditParams) SetContentType(contentType *string) {
 	o.ContentType = contentType
 }
 
+// WithID adds the id to the status edit params
+func (o *StatusEditParams) WithID(id string) *StatusEditParams {
+	o.SetID(id)
+	return o
+}
+
+// SetID adds the id to the status edit params
+func (o *StatusEditParams) SetID(id string) {
+	o.ID = id
+}
+
 // WithLanguage adds the language to the status edit params
 func (o *StatusEditParams) WithLanguage(language *string) *StatusEditParams {
 	o.SetLanguage(language)
@@ -333,6 +350,11 @@ func (o *StatusEditParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 				return err
 			}
 		}
+	}
+
+	// path param id
+	if err := r.SetPathParam("id", o.ID); err != nil {
+		return err
 	}
 
 	if o.Language != nil {
