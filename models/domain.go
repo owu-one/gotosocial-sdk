@@ -17,11 +17,17 @@ import (
 // swagger:model Domain
 type Domain struct {
 
+	// If the domain is blocked, what's the publicly-stated reason for the block.
+	// Alternative to `public_comment` to be used when serializing/deserializing via /api/v1/instance.
+	// Example: they smell
+	Comment string `json:"comment,omitempty"`
+
 	// The hostname of the domain.
 	// Example: example.org
 	Domain string `json:"domain,omitempty"`
 
 	// If the domain is blocked, what's the publicly-stated reason for the block.
+	// Alternative to `comment` to be used when serializing/deserializing NOT via /api/v1/instance.
 	// Example: they smell
 	PublicComment string `json:"public_comment,omitempty"`
 

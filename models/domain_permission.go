@@ -19,6 +19,11 @@ import (
 // swagger:model DomainPermission
 type DomainPermission struct {
 
+	// If the domain is blocked, what's the publicly-stated reason for the block.
+	// Alternative to `public_comment` to be used when serializing/deserializing via /api/v1/instance.
+	// Example: they smell
+	Comment string `json:"comment,omitempty"`
+
 	// Time at which the permission entry was created (ISO 8601 Datetime).
 	// Example: 2021-07-30T09:20:25+00:00
 	CreatedAt string `json:"created_at,omitempty"`
@@ -49,6 +54,7 @@ type DomainPermission struct {
 	PrivateComment string `json:"private_comment,omitempty"`
 
 	// If the domain is blocked, what's the publicly-stated reason for the block.
+	// Alternative to `comment` to be used when serializing/deserializing NOT via /api/v1/instance.
 	// Example: they smell
 	PublicComment string `json:"public_comment,omitempty"`
 

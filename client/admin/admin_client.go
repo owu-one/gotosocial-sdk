@@ -118,6 +118,8 @@ type ClientService interface {
 
 	DomainAllowGet(params *DomainAllowGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainAllowGetOK, error)
 
+	DomainAllowUpdate(params *DomainAllowUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainAllowUpdateOK, error)
+
 	DomainAllowsGet(params *DomainAllowsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainAllowsGetOK, error)
 
 	DomainBlockCreate(params *DomainBlockCreateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainBlockCreateOK, error)
@@ -125,6 +127,8 @@ type ClientService interface {
 	DomainBlockDelete(params *DomainBlockDeleteParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainBlockDeleteOK, error)
 
 	DomainBlockGet(params *DomainBlockGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainBlockGetOK, error)
+
+	DomainBlockUpdate(params *DomainBlockUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainBlockUpdateOK, error)
 
 	DomainBlocksGet(params *DomainBlocksGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainBlocksGetOK, error)
 
@@ -789,6 +793,45 @@ func (a *Client) DomainAllowGet(params *DomainAllowGetParams, authInfo runtime.C
 }
 
 /*
+DomainAllowUpdate updates a single domain allow
+*/
+func (a *Client) DomainAllowUpdate(params *DomainAllowUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainAllowUpdateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainAllowUpdateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainAllowUpdate",
+		Method:             "PUT",
+		PathPattern:        "/api/v1/admin/domain_allows/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"multipart/form-data"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainAllowUpdateReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainAllowUpdateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainAllowUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 DomainAllowsGet views all domain allows currently in place
 */
 func (a *Client) DomainAllowsGet(params *DomainAllowsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainAllowsGetOK, error) {
@@ -948,6 +991,45 @@ func (a *Client) DomainBlockGet(params *DomainBlockGetParams, authInfo runtime.C
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for domainBlockGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DomainBlockUpdate updates a single domain block
+*/
+func (a *Client) DomainBlockUpdate(params *DomainBlockUpdateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DomainBlockUpdateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDomainBlockUpdateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "domainBlockUpdate",
+		Method:             "PUT",
+		PathPattern:        "/api/v1/admin/domain_blocks/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"multipart/form-data"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DomainBlockUpdateReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DomainBlockUpdateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for domainBlockUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
