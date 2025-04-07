@@ -65,6 +65,10 @@ type User struct {
 	// Example: 2021-07-30T09:20:25+00:00
 	ResetPasswordSentAt string `json:"reset_password_sent_at,omitempty"`
 
+	// Time at which 2fa was enabled for this user. (ISO 8601 Datetime)
+	// Example: 2021-07-30T09:20:25+00:00
+	TwoFactorEnabledAt string `json:"two_factor_enabled_at,omitempty"`
+
 	// Unconfirmed email address of this user, if set.
 	// Example: someone.else@somewhere.else.example.org
 	UnconfirmedEmail string `json:"unconfirmed_email,omitempty"`

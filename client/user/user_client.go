@@ -83,8 +83,41 @@ func WithContentTypeApplicationXML(r *runtime.ClientOperation) {
 	r.ConsumesMediaTypes = []string{"application/xml"}
 }
 
+// WithAccept allows the client to force the Accept header
+// to negotiate a specific Producer from the server.
+//
+// You may use this option to set arbitrary extensions to your MIME media type.
+func WithAccept(mime string) ClientOption {
+	return func(r *runtime.ClientOperation) {
+		r.ProducesMediaTypes = []string{mime}
+	}
+}
+
+// WithAcceptApplicationJSON sets the Accept header to "application/json".
+func WithAcceptApplicationJSON(r *runtime.ClientOperation) {
+	r.ProducesMediaTypes = []string{"application/json"}
+}
+
+// WithAcceptImagePng sets the Accept header to "image/png".
+func WithAcceptImagePng(r *runtime.ClientOperation) {
+	r.ProducesMediaTypes = []string{"image/png"}
+}
+
+// WithAcceptTextPlain sets the Accept header to "text/plain".
+func WithAcceptTextPlain(r *runtime.ClientOperation) {
+	r.ProducesMediaTypes = []string{"text/plain"}
+}
+
 // ClientService is the interface for Client methods
 type ClientService interface {
+	TwoFactorDisablePost(params *TwoFactorDisablePostParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorDisablePostOK, error)
+
+	TwoFactorEnablePost(params *TwoFactorEnablePostParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorEnablePostOK, error)
+
+	TwoFactorQRCodePngGet(params *TwoFactorQRCodePngGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorQRCodePngGetOK, error)
+
+	TwoFactorQRCodeURIGet(params *TwoFactorQRCodeURIGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorQRCodeURIGetOK, error)
+
 	GetUser(params *GetUserParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetUserOK, error)
 
 	UserEmailChange(params *UserEmailChangeParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UserEmailChangeAccepted, error)
@@ -92,6 +125,182 @@ type ClientService interface {
 	UserPasswordChange(params *UserPasswordChangeParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UserPasswordChangeOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+	TwoFactorDisablePost disables 2fa for the authorized user user s current password must be provided for verification purposes
+
+	If 2fa is already disabled for this user, code 409 Conflict will be returned.
+
+If the instance is running with OIDC enabled, two factor authentication cannot be turned on or off in GtS, it must be enabled or disabled using the OIDC provider. All calls to 2fa api endpoints will return 422 Unprocessable Entity while OIDC is enabled.
+*/
+func (a *Client) TwoFactorDisablePost(params *TwoFactorDisablePostParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorDisablePostOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewTwoFactorDisablePostParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "TwoFactorDisablePost",
+		Method:             "POST",
+		PathPattern:        "/api/v1/user/2fa/disable",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json", "application/x-www-form-urlencoded"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &TwoFactorDisablePostReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*TwoFactorDisablePostOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for TwoFactorDisablePost: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	TwoFactorEnablePost enables 2fa for the authorized user using the provided code from an authenticator app and return an array of one time recovery codes to allow bypassing 2fa
+
+	If 2fa is already enabled for this user, code 409 Conflict will be returned.
+
+If the instance is running with OIDC enabled, two factor authentication cannot be turned on or off in GtS, it must be enabled or disabled using the OIDC provider. All calls to 2fa api endpoints will return 422 Unprocessable Entity while OIDC is enabled.
+*/
+func (a *Client) TwoFactorEnablePost(params *TwoFactorEnablePostParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorEnablePostOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewTwoFactorEnablePostParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "TwoFactorEnablePost",
+		Method:             "POST",
+		PathPattern:        "/api/v1/user/2fa/enable",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json", "application/x-www-form-urlencoded"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &TwoFactorEnablePostReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*TwoFactorEnablePostOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for TwoFactorEnablePost: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	TwoFactorQRCodePngGet returns a q r code png to allow the authorized user to enable 2fa for their login
+
+	For the plaintext version of the QR code URI, call /api/v1/user/2fa/qruri instead.
+
+If 2fa is already enabled for this user, the QR code (with its secret) will not be shared again. Instead, code 409 Conflict will be returned. To get a fresh secret, first disable 2fa using POST /api/v1/user/2fa/disable, and then call this endpoint again.
+
+If the instance is running with OIDC enabled, two factor authentication cannot be turned on or off in GtS, it must be enabled or disabled using the OIDC provider. All calls to 2fa api endpoints will return 422 Unprocessable Entity while OIDC is enabled.
+*/
+func (a *Client) TwoFactorQRCodePngGet(params *TwoFactorQRCodePngGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorQRCodePngGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewTwoFactorQRCodePngGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "TwoFactorQRCodePngGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/user/2fa/qr.png",
+		ProducesMediaTypes: []string{"image/png"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &TwoFactorQRCodePngGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*TwoFactorQRCodePngGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for TwoFactorQRCodePngGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	TwoFactorQRCodeURIGet returns a q r code uri to allow the authorized user to enable 2fa for their login
+
+	For a png of the QR code, call /api/v1/user/2fa/qr.png instead.
+
+If 2fa is already enabled for this user, the QR code URI (with its secret) will not be shared again. Instead, code 409 Conflict will be returned. To get a fresh secret, first disable 2fa using POST /api/v1/user/2fa/disable, and then call this endpoint again.
+
+If the instance is running with OIDC enabled, two factor authentication cannot be turned on or off in GtS, it must be enabled or disabled using the OIDC provider. All calls to 2fa api endpoints will return 422 Unprocessable Entity while OIDC is enabled.
+*/
+func (a *Client) TwoFactorQRCodeURIGet(params *TwoFactorQRCodeURIGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TwoFactorQRCodeURIGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewTwoFactorQRCodeURIGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "TwoFactorQRCodeURIGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/user/2fa/qruri",
+		ProducesMediaTypes: []string{"text/plain"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &TwoFactorQRCodeURIGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*TwoFactorQRCodeURIGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for TwoFactorQRCodeURIGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
