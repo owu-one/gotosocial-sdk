@@ -35,6 +35,7 @@ import (
 	"github.com/owu-one/gotosocial-sdk/client/nodeinfo"
 	"github.com/owu-one/gotosocial-sdk/client/notifications"
 	"github.com/owu-one/gotosocial-sdk/client/nr_well_known"
+	"github.com/owu-one/gotosocial-sdk/client/oauth"
 	"github.com/owu-one/gotosocial-sdk/client/polls"
 	"github.com/owu-one/gotosocial-sdk/client/preferences"
 	"github.com/owu-one/gotosocial-sdk/client/push"
@@ -115,6 +116,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *GoToSocial
 	cli.Nodeinfo = nodeinfo.New(transport, formats)
 	cli.Notifications = notifications.New(transport, formats)
 	cli.NrWellKnown = nr_well_known.New(transport, formats)
+	cli.Oauth = oauth.New(transport, formats)
 	cli.Polls = polls.New(transport, formats)
 	cli.Preferences = preferences.New(transport, formats)
 	cli.Push = push.New(transport, formats)
@@ -220,6 +222,8 @@ type GoToSocialSwaggerDocumentation struct {
 
 	NrWellKnown nr_well_known.ClientService
 
+	Oauth oauth.ClientService
+
 	Polls polls.ClientService
 
 	Preferences preferences.ClientService
@@ -273,6 +277,7 @@ func (c *GoToSocialSwaggerDocumentation) SetTransport(transport runtime.ClientTr
 	c.Nodeinfo.SetTransport(transport)
 	c.Notifications.SetTransport(transport)
 	c.NrWellKnown.SetTransport(transport)
+	c.Oauth.SetTransport(transport)
 	c.Polls.SetTransport(transport)
 	c.Preferences.SetTransport(transport)
 	c.Push.SetTransport(transport)
