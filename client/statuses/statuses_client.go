@@ -461,8 +461,6 @@ func (a *Client) StatusGet(params *StatusGetParams, authInfo runtime.ClientAuthI
 
 /*
 StatusHistoryGet views edit history of status with the given ID
-
-UNIMPLEMENTED: Currently this endpoint will always return an array of length 1, containing only the latest/current version of the status.
 */
 func (a *Client) StatusHistoryGet(params *StatusHistoryGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*StatusHistoryGetOK, error) {
 	// TODO: Validate the params before sending
