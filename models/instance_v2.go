@@ -53,7 +53,7 @@ type InstanceV2 struct {
 	Rules []*InstanceRule `json:"rules"`
 
 	// The URL for the source code of the software running on this instance, in keeping with AGPL license requirements.
-	// Example: https://github.com/superseriousbusiness/gotosocial
+	// Example: https://codeberg.org/superseriousbusiness/gotosocial
 	SourceURL string `json:"source_url,omitempty"`
 
 	// Terms and conditions for accounts on this instance.
