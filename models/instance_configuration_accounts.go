@@ -26,7 +26,7 @@ type InstanceConfigurationAccounts struct {
 	MaxFeaturedTags int64 `json:"max_featured_tags,omitempty"`
 
 	// The maximum number of profile fields allowed for each account.
-	// Currently not configurable, so this is hardcoded to 6. (https://github.com/superseriousbusiness/gotosocial/issues/1876)
+	// Currently not configurable, so this is hardcoded to 6. (https://codeberg.org/superseriousbusiness/gotosocial/issues/1876)
 	MaxProfileFields int64 `json:"max_profile_fields,omitempty"`
 }
 
