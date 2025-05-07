@@ -17,6 +17,17 @@ import (
 // swagger:model InstanceConfigurationMediaAttachments
 type InstanceConfigurationMediaAttachments struct {
 
+	// The maximum size of a description, in characters.
+	// Omitted for /api/v1/instance response.
+	// Example: 5000
+	DescriptionLimit int64 `json:"description_limit,omitempty"`
+
+	// The minimum size required for a description, in characters.
+	// Omitted if zero/not set.
+	// Omitted for /api/v1/instance response.
+	// Example: 200
+	DescriptionMinimum int64 `json:"description_minimum,omitempty"`
+
 	// Max allowed image size in pixels as height*width.
 	//
 	// GtS doesn't set a limit on this, but for compatibility
