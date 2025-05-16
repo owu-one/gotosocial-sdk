@@ -20,9 +20,17 @@ import (
 type PolicyRules struct {
 
 	// Policy entries for accounts that can always do this type of interaction.
+	// Deprecated: Use "automatic_approval" instead.
 	Always []PolicyValue `json:"always"`
 
+	// Policy entries for accounts that will receive automatic approval for this type of interaction.
+	AutomaticApproval []PolicyValue `json:"automatic_approval"`
+
+	// Policy entries for accounts that require manual approval for this type of interaction.
+	ManualApproval []PolicyValue `json:"manual_approval"`
+
 	// Policy entries for accounts that require approval to do this type of interaction.
+	// Deprecated: Use "manual_approval" instead.
 	WithApproval []PolicyValue `json:"with_approval"`
 }
 
@@ -31,6 +39,14 @@ func (m *PolicyRules) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAlways(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAutomaticApproval(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateManualApproval(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -56,6 +72,48 @@ func (m *PolicyRules) validateAlways(formats strfmt.Registry) error {
 				return ve.ValidateName("always" + "." + strconv.Itoa(i))
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("always" + "." + strconv.Itoa(i))
+			}
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (m *PolicyRules) validateAutomaticApproval(formats strfmt.Registry) error {
+	if swag.IsZero(m.AutomaticApproval) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AutomaticApproval); i++ {
+
+		if err := m.AutomaticApproval[i].Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("automatic_approval" + "." + strconv.Itoa(i))
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("automatic_approval" + "." + strconv.Itoa(i))
+			}
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (m *PolicyRules) validateManualApproval(formats strfmt.Registry) error {
+	if swag.IsZero(m.ManualApproval) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ManualApproval); i++ {
+
+		if err := m.ManualApproval[i].Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("manual_approval" + "." + strconv.Itoa(i))
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("manual_approval" + "." + strconv.Itoa(i))
 			}
 			return err
 		}
@@ -94,6 +152,14 @@ func (m *PolicyRules) ContextValidate(ctx context.Context, formats strfmt.Regist
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateAutomaticApproval(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateManualApproval(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateWithApproval(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -117,6 +183,50 @@ func (m *PolicyRules) contextValidateAlways(ctx context.Context, formats strfmt.
 				return ve.ValidateName("always" + "." + strconv.Itoa(i))
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("always" + "." + strconv.Itoa(i))
+			}
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (m *PolicyRules) contextValidateAutomaticApproval(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AutomaticApproval); i++ {
+
+		if swag.IsZero(m.AutomaticApproval[i]) { // not required
+			return nil
+		}
+
+		if err := m.AutomaticApproval[i].ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("automatic_approval" + "." + strconv.Itoa(i))
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("automatic_approval" + "." + strconv.Itoa(i))
+			}
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (m *PolicyRules) contextValidateManualApproval(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ManualApproval); i++ {
+
+		if swag.IsZero(m.ManualApproval[i]) { // not required
+			return nil
+		}
+
+		if err := m.ManualApproval[i].ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("manual_approval" + "." + strconv.Itoa(i))
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("manual_approval" + "." + strconv.Itoa(i))
 			}
 			return err
 		}
