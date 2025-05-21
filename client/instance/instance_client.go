@@ -80,6 +80,10 @@ func WithContentTypeMultipartFormData(r *runtime.ClientOperation) {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	InstanceDomainAllowsGet(params *InstanceDomainAllowsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstanceDomainAllowsGetOK, error)
+
+	InstanceDomainBlocksGet(params *InstanceDomainBlocksGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstanceDomainBlocksGetOK, error)
+
 	InstanceGetV1(params *InstanceGetV1Params, opts ...ClientOption) (*InstanceGetV1OK, error)
 
 	InstanceGetV2(params *InstanceGetV2Params, opts ...ClientOption) (*InstanceGetV2OK, error)
@@ -91,6 +95,88 @@ type ClientService interface {
 	Rules(params *RulesParams, opts ...ClientOption) (*RulesOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+InstanceDomainAllowsGet lists explicitly allowed domains
+
+OAuth token may need to be provided depending on setting `instance-expose-allowlist`.
+*/
+func (a *Client) InstanceDomainAllowsGet(params *InstanceDomainAllowsGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstanceDomainAllowsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewInstanceDomainAllowsGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "instanceDomainAllowsGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/instance/domain_allows",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &InstanceDomainAllowsGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*InstanceDomainAllowsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for instanceDomainAllowsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+InstanceDomainBlocksGet lists blocked domains
+
+OAuth token may need to be provided depending on setting `instance-expose-blocklist`.
+*/
+func (a *Client) InstanceDomainBlocksGet(params *InstanceDomainBlocksGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstanceDomainBlocksGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewInstanceDomainBlocksGetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "instanceDomainBlocksGet",
+		Method:             "GET",
+		PathPattern:        "/api/v1/instance/domain_blocks",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &InstanceDomainBlocksGetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*InstanceDomainBlocksGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for instanceDomainBlocksGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -170,7 +256,7 @@ func (a *Client) InstanceGetV2(params *InstanceGetV2Params, opts ...ClientOption
 }
 
 /*
-InstancePeersGet instance peers get API
+InstancePeersGet lists peer domains
 */
 func (a *Client) InstancePeersGet(params *InstancePeersGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InstancePeersGetOK, error) {
 	// TODO: Validate the params before sending

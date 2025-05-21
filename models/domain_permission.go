@@ -19,7 +19,7 @@ import (
 // swagger:model DomainPermission
 type DomainPermission struct {
 
-	// If the domain is blocked, what's the publicly-stated reason for the block.
+	// If the domain is blocked or allowed, what's the publicly-stated reason (if any).
 	// Alternative to `public_comment` to be used when serializing/deserializing via /api/v1/instance.
 	// Example: they smell
 	Comment string `json:"comment,omitempty"`
@@ -53,10 +53,14 @@ type DomainPermission struct {
 	// Example: they are poopoo
 	PrivateComment string `json:"private_comment,omitempty"`
 
-	// If the domain is blocked, what's the publicly-stated reason for the block.
+	// If the domain is blocked or allowed, what's the publicly-stated reason (if any).
 	// Alternative to `comment` to be used when serializing/deserializing NOT via /api/v1/instance.
 	// Example: they smell
 	PublicComment string `json:"public_comment,omitempty"`
+
+	// Severity of this entry.
+	// Only ever set for domain blocks, and if set, always="suspend".
+	Severity string `json:"severity,omitempty"`
 
 	// Time at which this domain was silenced. Key will not be present on open domains.
 	// Example: 2021-07-30T09:20:25+00:00

@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewInstancePeersGetParams creates a new InstancePeersGetParams object,
@@ -64,20 +65,32 @@ type InstancePeersGetParams struct {
 	/* Filter.
 
 	     Comma-separated list of filters to apply to results. Recognized filters are:
-	  - `open` -- include peers that are not suspended or silenced
-	  - `suspended` -- include peers that have been suspended.
+	  - `open` -- include known domains that are not in the domain blocklist
+	  - `allowed` -- include domains that are in the domain allowlist
+	  - `blocked` -- include domains that are in the domain blocklist
+	  - `suspended` -- DEPRECATED! Use `blocked` instead. Same as `blocked`: include domains that are in the domain blocklist;
 
-	If filter is `open`, only instances that haven't been suspended or silenced will be returned.
+	If filter is `open`, only domains that aren't in the blocklist will be shown.
 
-	If filter is `suspended`, only suspended instances will be shown.
+	If filter is `blocked`, only domains that *are* in the blocklist will be shown.
 
-	If filter is `open,suspended`, then all known instances will be returned.
+	If filter is `allowed`, only domains that are in the allowlist will be shown.
+
+	If filter is `open,blocked`, then blocked domains and known domains not on the blocklist will be shown.
+
+	If filter is `open,allowed`, then allowed domains and known domains not on the blocklist will be shown.
 
 	If filter is an empty string or not set, then `open` will be assumed as the default.
 
-	     Default: "open"
+	     Default: "flat"
 	*/
 	Filter *string
+
+	/* Flat.
+
+	   If true, a "flat" array of strings will be returned corresponding to just domain names.
+	*/
+	Flat *bool
 
 	timeout    time.Duration
 	Context    context.Context
@@ -97,11 +110,14 @@ func (o *InstancePeersGetParams) WithDefaults() *InstancePeersGetParams {
 // All values with no default are reset to their zero value.
 func (o *InstancePeersGetParams) SetDefaults() {
 	var (
-		filterDefault = string("open")
+		filterDefault = string("flat")
+
+		flatDefault = bool(false)
 	)
 
 	val := InstancePeersGetParams{
 		Filter: &filterDefault,
+		Flat:   &flatDefault,
 	}
 
 	val.timeout = o.timeout
@@ -154,6 +170,17 @@ func (o *InstancePeersGetParams) SetFilter(filter *string) {
 	o.Filter = filter
 }
 
+// WithFlat adds the flat to the instance peers get params
+func (o *InstancePeersGetParams) WithFlat(flat *bool) *InstancePeersGetParams {
+	o.SetFlat(flat)
+	return o
+}
+
+// SetFlat adds the flat to the instance peers get params
+func (o *InstancePeersGetParams) SetFlat(flat *bool) {
+	o.Flat = flat
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *InstancePeersGetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -174,6 +201,23 @@ func (o *InstancePeersGetParams) WriteToRequest(r runtime.ClientRequest, reg str
 		if qFilter != "" {
 
 			if err := r.SetQueryParam("filter", qFilter); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.Flat != nil {
+
+		// query param flat
+		var qrFlat bool
+
+		if o.Flat != nil {
+			qrFlat = *o.Flat
+		}
+		qFlat := swag.FormatBool(qrFlat)
+		if qFlat != "" {
+
+			if err := r.SetQueryParam("flat", qFlat); err != nil {
 				return err
 			}
 		}

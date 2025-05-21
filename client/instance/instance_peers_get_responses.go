@@ -79,12 +79,10 @@ func NewInstancePeersGetOK() *InstancePeersGetOK {
 /*
 	InstancePeersGetOK describes a response with status code 200, with default header values.
 
-	If no filter parameter is provided, or filter is empty, then a legacy, Mastodon-API compatible response will be returned. This will consist of just a 'flat' array of strings like `["example.com", "example.org"]`, which corresponds to domains this instance peers with.
+	If no filter parameter is provided, or filter is empty, then a legacy, Mastodon-API compatible response will be returned. This will consist of just a 'flat' array of strings like `["example.com", "example.org"]`, which corresponds to setting a filter of `open` and flat=true.
 
-If a filter parameter is provided, then an array of objects with at least a `domain` key set on each object will be returned.
-
+If a filter parameter is provided and flat is not true, then an array of objects with at least a `domain` key set on each object will be returned.
 Domains that are silenced or suspended will also have a key `suspended_at` or `silenced_at` that contains an iso8601 date string. If one of these keys is not present on the domain object, it is open. Suspended instances may in some cases be obfuscated, which means they will have some letters replaced by `*` to make it more difficult for bad actors to target instances with harassment.
-
 Whether a flat response or a more detailed response is returned, domains will be sorted alphabetically by hostname.
 */
 type InstancePeersGetOK struct {
