@@ -347,7 +347,7 @@ func (a *Client) ListUpdate(params *ListUpdateParams, authInfo runtime.ClientAut
 }
 
 /*
-Lists gets all lists for owned by authorized user
+Lists gets all lists owned by authorized user
 */
 func (a *Client) Lists(params *ListsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ListsOK, error) {
 	// TODO: Validate the params before sending
