@@ -60,6 +60,8 @@ type ClientService interface {
 
 	GetFollowRequests(params *GetFollowRequestsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetFollowRequestsOK, error)
 
+	GetOutgoingFollowRequests(params *GetOutgoingFollowRequestsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetOutgoingFollowRequestsOK, error)
+
 	RejectFollowRequest(params *RejectFollowRequestParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RejectFollowRequestOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
@@ -150,6 +152,53 @@ func (a *Client) GetFollowRequests(params *GetFollowRequestsParams, authInfo run
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getFollowRequests: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	GetOutgoingFollowRequests gets an array of accounts that you have requested to follow
+
+	The next and previous queries can be parsed from the returned Link header.
+
+Example:
+
+```
+<https://example.org/api/v1/follow_requests/outgoing?limit=80&max_id=01FC0SKA48HNSVR6YKZCQGS2V8>; rel="next", <https://example.org/api/v1/follow_requests/outgoing?limit=80&min_id=01FC0SKW5JK2Q4EVAV2B462YY0>; rel="prev"
+````
+*/
+func (a *Client) GetOutgoingFollowRequests(params *GetOutgoingFollowRequestsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetOutgoingFollowRequestsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOutgoingFollowRequestsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOutgoingFollowRequests",
+		Method:             "GET",
+		PathPattern:        "/api/v1/follow_requests/outgoing",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetOutgoingFollowRequestsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOutgoingFollowRequestsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getOutgoingFollowRequests: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
