@@ -63,6 +63,8 @@ type ClientService interface {
 
 /*
 CustomEmojisGet gets an array of custom emojis available on the instance
+
+If the instance config setting `instance-expose-custom-emojis` is `true` then authentication is not required.
 */
 func (a *Client) CustomEmojisGet(params *CustomEmojisGetParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CustomEmojisGetOK, error) {
 	// TODO: Validate the params before sending
