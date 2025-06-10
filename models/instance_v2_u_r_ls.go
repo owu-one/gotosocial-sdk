@@ -17,9 +17,21 @@ import (
 // swagger:model InstanceV2URLs
 type InstanceV2URLs struct {
 
+	// Address of the server about page.
+	// Example: https://example.org/about
+	About string `json:"about,omitempty"`
+
+	// Address of the server privacy policy, if any.
+	// Example: https://example.org/about#rules
+	PrivacyPolicy string `json:"privacy_policy,omitempty"`
+
 	// Websockets address for status and notification streaming.
 	// Example: wss://example.org
 	Streaming string `json:"streaming,omitempty"`
+
+	// Address of the server current terms of service, if any.
+	// Example: https://example.org/about#privacy_policy
+	TermsOfService string `json:"terms_of_service,omitempty"`
 }
 
 // Validate validates this instance v2 u r ls

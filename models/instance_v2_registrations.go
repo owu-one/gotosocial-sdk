@@ -29,6 +29,15 @@ type InstanceV2Registrations struct {
 	// Value will be null if no message is set.
 	// Example: \u003cp\u003eRegistrations are currently closed on example.org because of spam bots!\u003c/p\u003e
 	Message string `json:"message,omitempty"`
+
+	// A minimum age required to register, if configured.
+	// Currently not implemented: will always be null.
+	MinAge int64 `json:"min_age,omitempty"`
+
+	// Whether registrations require the user to provide a reason for joining.
+	// Only applicable when ApprovalRequired is true.
+	// Example: true
+	ReasonRequired bool `json:"reason_required,omitempty"`
 }
 
 // Validate validates this instance v2 registrations
