@@ -76,6 +76,10 @@ type DomainPermissionSubscription struct {
 	// Example: 100
 	Priority uint8 `json:"priority,omitempty"`
 
+	// If true, then when a list is processed, if the list does *not* contain entries that it *did* contain previously, ie., retracted entries, then domain permissions corresponding to those entries will be removed. If false, they will just be orphaned instead.
+	// Example: true
+	RemoveRetracted bool `json:"remove_retracted,omitempty"`
+
 	// Time of the most recent successful fetch (ISO 8601 Datetime).
 	// Example: 2021-07-30T09:20:25+00:00
 	// Read Only: true

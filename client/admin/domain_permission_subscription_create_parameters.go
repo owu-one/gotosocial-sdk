@@ -106,6 +106,14 @@ type DomainPermissionSubscriptionCreateParams struct {
 	*/
 	Priority *float64
 
+	/* RemoveRetracted.
+
+	   If true, then when a list is processed, if the list does *not* contain entries that it *did* contain previously, ie., retracted entries, then domain permissions corresponding to those entries will be removed. If false, they will just be orphaned instead.
+
+	   Default: true
+	*/
+	RemoveRetracted *bool
+
 	/* Title.
 
 	   Optional title for this subscription.
@@ -141,12 +149,15 @@ func (o *DomainPermissionSubscriptionCreateParams) SetDefaults() {
 		asDraftDefault = bool(true)
 
 		priorityDefault = float64(0)
+
+		removeRetractedDefault = bool(true)
 	)
 
 	val := DomainPermissionSubscriptionCreateParams{
-		AdoptOrphans: &adoptOrphansDefault,
-		AsDraft:      &asDraftDefault,
-		Priority:     &priorityDefault,
+		AdoptOrphans:    &adoptOrphansDefault,
+		AsDraft:         &asDraftDefault,
+		Priority:        &priorityDefault,
+		RemoveRetracted: &removeRetractedDefault,
 	}
 
 	val.timeout = o.timeout
@@ -263,6 +274,17 @@ func (o *DomainPermissionSubscriptionCreateParams) WithPriority(priority *float6
 // SetPriority adds the priority to the domain permission subscription create params
 func (o *DomainPermissionSubscriptionCreateParams) SetPriority(priority *float64) {
 	o.Priority = priority
+}
+
+// WithRemoveRetracted adds the removeRetracted to the domain permission subscription create params
+func (o *DomainPermissionSubscriptionCreateParams) WithRemoveRetracted(removeRetracted *bool) *DomainPermissionSubscriptionCreateParams {
+	o.SetRemoveRetracted(removeRetracted)
+	return o
+}
+
+// SetRemoveRetracted adds the removeRetracted to the domain permission subscription create params
+func (o *DomainPermissionSubscriptionCreateParams) SetRemoveRetracted(removeRetracted *bool) {
+	o.RemoveRetracted = removeRetracted
 }
 
 // WithTitle adds the title to the domain permission subscription create params
@@ -383,6 +405,21 @@ func (o *DomainPermissionSubscriptionCreateParams) WriteToRequest(r runtime.Clie
 		fPriority := swag.FormatFloat64(frPriority)
 		if fPriority != "" {
 			if err := r.SetFormParam("priority", fPriority); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.RemoveRetracted != nil {
+
+		// form param remove_retracted
+		var frRemoveRetracted bool
+		if o.RemoveRetracted != nil {
+			frRemoveRetracted = *o.RemoveRetracted
+		}
+		fRemoveRetracted := swag.FormatBool(frRemoveRetracted)
+		if fRemoveRetracted != "" {
+			if err := r.SetFormParam("remove_retracted", fRemoveRetracted); err != nil {
 				return err
 			}
 		}
