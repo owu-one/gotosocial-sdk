@@ -1,5 +1,8 @@
 # GoToSocial SDK
 
+> [!WARNING]
+> This package is deprecated and will no longer receive updates. Please migrate to [codeberg.org/gotosocial-sdk/golang](https://codeberg.org/gotosocial-sdk/golang) or other alternatives.
+
 [![Go Reference](https://pkg.go.dev/badge/github.com/owu-one/gotosocial-sdk.svg)](https://pkg.go.dev/github.com/owu-one/gotosocial-sdk)
 
 GoToSocial Swagger API Client (Auto-Generated)
